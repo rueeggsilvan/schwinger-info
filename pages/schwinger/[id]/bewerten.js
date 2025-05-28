@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { supabase } from '../../../lib/supabaseClient'
 import Layout from '../../../components/layout'
 import felderDefinition from '../bewertungsfelder.json'
+import Link from 'next/link'
 
 export default function Bewerten() {
   const [user, setUser] = useState(null)
@@ -46,7 +47,7 @@ export default function Bewerten() {
       <Layout>
         <div>
           <p>Nur eingeloggte Benutzer dürfen bewerten.</p>
-          <a href="/login">Zum Login</a>
+          <Link href="/login">Zum Login</Link>
         </div>
       </Layout>
     )

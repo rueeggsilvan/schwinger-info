@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { supabase } from '../../lib/supabaseClient'
 import Layout from '../../components/layout'
+import Image from 'next/image'
 
 export default function SchwingerDetail() {
   const router = useRouter()
@@ -38,7 +39,13 @@ export default function SchwingerDetail() {
         <h1>{schwinger.vorname} {schwinger.name} ({schwinger.wohnort})</h1>
 
         {schwinger.bild_url ? (
-          <img src={schwinger.bild_url} alt={`${schwinger.vorname} ${schwinger.name}`} width={200} />
+          <Image
+            src={schwinger.bild_url}
+            alt={schwinger.name}
+            width={200}
+            height={200}
+            style={{ objectFit: 'cover' }}
+          />
         ) : (
           <p>Kein Bild verfügbar</p>
         )}

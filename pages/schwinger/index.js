@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabaseClient'
 import Link from 'next/link'
 import Layout from '../../components/layout'
+import Image from 'next/image'
 
 export default function Home() {
   const [schwinger, setSchwinger] = useState([])
@@ -60,7 +61,13 @@ export default function Home() {
                 style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '1rem' }}
               >
                 {s.bild_url ? (
-                  <img src={s.bild_url} alt={`${s.vorname} ${s.name}`} width={100} height={100} />
+                <Image
+                    src={s.bild_url}
+                    alt={s.name}
+                    width={100}
+                    height={100}
+                    style={{ objectFit: 'cover' }}
+                />
                 ) : (
                   <div style={{
                     width: 100, height: 100, backgroundColor: '#ccc',
