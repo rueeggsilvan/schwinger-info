@@ -1,0 +1,33 @@
+/* Light Theme Variablen */
+:root {
+  --color-background: #ffffff;
+  --color-text: #222222;
+  --color-primary: #1d3557;
+  --color-secondary: #e63946;
+  --color-button-text: #ffffff;
+  --color-button-bg: var(--color-primary);
+  --border-radius: 6px;
+  --spacing: 1rem;
+  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Dark Theme Variablen - automatisch wenn Browser dark mode an hat */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #121212;
+    --color-text: #e0e0e0;
+    --color-primary: #a8dadc;
+    --color-secondary: #f4a261;
+    --color-button-text: #121212;
+    --color-button-bg: var(--color-primary);
+  }
+}
+
+/* Grund-Styles */
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  margin: 0;
+  padding: var(--spacing);
+}

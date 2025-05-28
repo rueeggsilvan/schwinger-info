@@ -1,0 +1,81 @@
+[
+  {
+    "gruppe": "Allgemein",
+    "felder": [
+      { "name": "bewerter_name", "label": "Dein Name", "type": "text" },
+      { "name": "kommentar", "label": "Kommentar", "type": "text" }
+    ]
+  },
+  {
+    "gruppe": "Physische Eigenschaften",
+    "felder": [
+      { "name": "Statur", "label": "Statur", "type": "number" },
+      { "name": "Kraft", "label": "Kraft", "type": "number" },
+      { "name": "Schnelligkeit", "label": "Schnelligkeit", "type": "number" },
+      { "name": "Ausdauer", "label": "Ausdauer", "type": "number" },
+      { "name": "Beweglichkeit", "label": "Beweglichkeit", "type": "number" },
+      { "name": "Standfestigkeit", "label": "Standfestigkeit", "type": "number" },
+      { "name": "Wendigkeit_Stand", "label": "Wendigkeit Stand (ausdrehen)", "type": "number" },
+      { "name": "Wendigkeit_Boden", "label": "Wendigkeit Boden (ausdrehen)", "type": "number" },
+      { "name": "Bruecke", "label": "Brücke", "type": "number" }
+    ]
+  },
+  {
+    "gruppe": "Verhalten",
+    "felder": [
+      { "name": "Verhalten_vor_Kampfantritt", "label": "Verhalten vor Kampfantritt", "type": "text" }
+    ]
+  },
+  {
+    "gruppe": "Stärkenklassen",
+    "matrix": true,
+    "kategorien": ["gegen schwächere", "gegen gleich starke", "gegen stärkere"],
+    "felder": [
+      {
+        "label": "Vorteile beim Greifen",
+        "names": ["Vorteile_beim_Greifen_A", "Vorteile_beim_Greifen_B", "Vorteile_beim_Greifen_C"]
+      },
+      {
+        "label": "Defensive Haltung beim Start",
+        "names": ["Devensiv_beim_Start_A", "Devensiv_beim_Start_B", "Devensiv_beim_Start_C"]
+      },
+      {
+        "label": "Zieht aufs Erste gut",
+        "names": ["Zieht_aufs_Erste_gut_A", "Zieht_aufs_Erste_gut_B", "Zieht_aufs_Erste_gut_C"]
+      },
+      {
+        "label": "Risikobereitschaft allgemein",
+        "names": ["Risikobereitschaft_allgemein_A", "Risikobereitschaft_allgemein_B", "Risikobereitschaft_allgemein_C"]
+      },
+      {
+        "label": "Risikobereitschaft gegen Ende",
+        "names": ["Risikobereitschaft_gegen_Ende_A", "Risikobereitschaft_gegen_Ende_B", "Risikobereitschaft_gegen_Ende_C"]
+      }
+    ]
+  },
+  {
+    "gruppe": "Fähigkeiten",
+    "felder": [
+      { "name": "Staerke_innerhalb_Griffen", "label": "Stärke innerhalb Griffen", "type": "number" },
+      { "name": "Staerke_ausserhalb_Griffen", "label": "Stärke ausserhalb Griffen", "type": "number" },
+      { "name": "gefaehrlich_auf_die_rechte_Seite", "label": "Gefährlich auf rechter Seite", "type": "number" },
+      { "name": "Ist_gefaehrlich_auf_die_linke_Seite", "label": "Gefährlich auf linker Seite", "type": "number" },
+      { "name": "gefaehrlich_im_Kreuzgriff", "label": "Gefährlich im Kreuzgriff", "type": "number" }
+    ]
+  },
+  {
+    "gruppe": "Allgemeine Eigenschaften",
+    "felder": [
+      { "name": "Allgemeiner_Geschwuerfaktor", "label": "Allgemeiner Geschwür Faktor", "type": "number" },
+      { "name": "Allgemeiner_Brockenfaktor", "label": "Allgemeiner Brockenfaktor", "type": "number" }
+    ]
+  },
+  {
+    "gruppe": "Stil",
+    "felder": [
+      { "name": "Bemerkungen", "label": "Bemerkungen", "type": "text" },
+      { "name": "Angriffsschwuenge", "label": "Angriffsschwünge", "type": "text" },
+      { "name": "Bodenschwuenge", "label": "Bodenschwünge", "type": "text" }
+    ]
+  }
+]
