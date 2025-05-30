@@ -34,8 +34,17 @@ export default function Layout({ children }) {
         <nav className="nav">
           <Link href="/" className="nav-link">Start</Link>
           <Link href="/schwinger" className="nav-link">Schwingerliste</Link>
+
           {session ? (
-            <span className="nav-user">Eingeloggt als {session.user.email}</span>
+            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+              <span className="nav-user">Eingeloggt als {session.user.email}</span>
+              <button onClick={async () => {
+                await supabase.auth.signOut();
+                setSession(null);
+              }}>
+                Logout
+              </button>
+            </div>
           ) : (
             <Link href="/login" className="nav-link">Login</Link>
           )}
