@@ -16,7 +16,7 @@ export default function Bewerten() {
       const { data } = await supabase.auth.getUser()
       if (data?.user) {
         setUser(data.user)
-        setFormData(prev => ({ ...prev, bearbeiter: data.user.email })) // Nur dieses Feld ist Pflicht
+        setFormData(prev => ({ ...prev, bewerter_name: data.user.email }))
       }
     }
     checkUser()
@@ -27,25 +27,25 @@ export default function Bewerten() {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    if (!formData.bearbeiter) {
-      alert('Bearbeiter muss eingetragen sein.');
-      return;
+    if (!formData.bewerter_name) {
+      alert('Dein Name muss eingetragen sein.')
+      return
     }
 
     const payload = {
       ...formData,
-      schwinger_id: id
-    };
+      schwinger_id: id,
+    }
 
-    const { error } = await supabase.from('bewertungen').insert(payload);
+    const { error } = await supabase.from('bewertungen').insert(payload)
 
     if (error) {
-      alert(`Fehler beim Speichern der Bewertung: ${error.message}`);
-      console.error('Supabase Insert Error:', error);
+      alert(`Fehler beim Speichern der Bewertung: ${error.message}`)
+      console.error('Supabase Insert Error:', error)
     } else {
-      alert('Bewertung gespeichert.');
+      alert('Bewertung gespeichert.')
     }
   }
 
@@ -68,59 +68,66 @@ export default function Bewerten() {
             <h2 className="text-xl font-semibold mb-2">{gruppe.gruppe}</h2>
 
             {gruppe.matrix ? (
-              <table className="table-auto w-full border">
-                <thead>
-                  <tr>
-                    <th className="border px-2 py-1 text-left">Eigenschaft</th>
-                    {gruppe.kategorien.map((kategorie, index) => (
-                      <th key={index} className="border px-2 py-1">{kategorie}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {gruppe.felder.map((feld, index) => (
-                    <tr key={index}>
-                      <td className="border px-2 py-1">{feld.label}</td>
-                      {feld.names.map((name, idx) => (
-                        <td key={idx} className="border px-2 py-1">
-                          <input
-                            type="number"
-                            min="1"
-                            max="10"
-                            value={formData[name] || ''}
-                            onChange={(e) => handleChange(name, e.target.value)}
-                          />
-                        </td>
+              <div className="overflow-x-auto">
+                <table className="table-auto w-full border text-sm">
+                  <thead>
+                    <tr>
+                      <th className="border px-2 py-1 text-left">Eigenschaft</th>
+                      {gruppe.kategorien.map((kategorie, index) => (
+                        <th key={index} className="border px-2 py-1 text-center">{kategorie}</th>
                       ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {gruppe.felder.map((feld, index) => (
+                      <tr key={index}>
+                        <td className="border px-2 py-1">{feld.label}</td>
+                        {feld.names.map((name, idx) => (
+                          <td key={idx} className="border px-2 py-1 text-center">
+                            <input
+                              type="number"
+                              min="1"
+                              max="10"
+                              value={formData[name] || ''}
+                              onChange={(e) => handleChange(name, e.target.value)}
+                              className="border rounded px-2 py-1 w-20 text-center"
+                            />
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             ) : (
-              gruppe.felder.map((feld, index) => (
-                <div key={index} className="mb-2">
-                  <label className="block font-medium mb-1">{feld.label}</label>
-                  {feld.type === 'text' ? (
-                    <textarea
-                      value={formData[feld.name] || ''}
-                      onChange={(e) => handleChange(feld.name, e.target.value)}
-                    />
-                  ) : (
-                    <input
-                      type="number"
-                      min="1"
-                      max="10"
-                      value={formData[feld.name] || ''}
-                      onChange={(e) => handleChange(feld.name, e.target.value)}
-                    />
-                  )}
-                </div>
-              ))
+              <div className="space-y-4">
+                {gruppe.felder.map((feld, index) => (
+                  <div key={index} className="flex flex-col">
+                    <label className="font-medium mb-1">{feld.label}</label>
+                    {feld.type === 'text' ? (
+                      <textarea
+                        value={formData[feld.name] || ''}
+                        onChange={(e) => handleChange(feld.name, e.target.value)}
+                        className="border rounded px-3 py-2 w-full"
+                      />
+                    ) : (
+                      <input
+                        type="number"
+                        min="1"
+                        max="10"
+                        value={formData[feld.name] || ''}
+                        onChange={(e) => handleChange(feld.name, e.target.value)}
+                        className="border rounded px-3 py-2 w-32"
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
             )}
           </div>
         ))}
 
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+        <button type="submit" className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">
           Bewerten
         </button>
       </form>
