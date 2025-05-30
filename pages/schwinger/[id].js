@@ -10,23 +10,69 @@ export default function SchwingerDetail() {
   const { id } = router.query
 
   const [schwinger, setSchwinger] = useState(null)
+  const [bewertungen, setBewertungen] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
     if (!id) return
-    async function fetchSchwinger() {
+
+    async function fetchSchwingerUndBewertungen() {
       setLoading(true)
+
+      // 1. Schwinger mit Bewertungen laden ohne Profile
       const { data, error } = await supabase
         .from('schwinger')
-        .select('*')
+        .select(`
+          *,
+          bewertungen (
+            id,
+            kommentar,
+            user_id
+          )
+        `)
         .eq('id', id)
         .single()
-      if (error) setError(error.message)
-      else setSchwinger(data)
+
+      if (error) {
+        setError(error.message)
+        setLoading(false)
+        return
+      }
+
+      // 2. User IDs aus Bewertungen sammeln
+      const userIds = [...new Set(data.bewertungen.map(b => b.user_id))].filter(Boolean)
+
+      // 3. Profile laden
+      const { data: profilesData, error: profilesError } = await supabase
+        .from('profiles')
+        .select('id, username')
+        .in('id', userIds)
+
+      if (profilesError) {
+        setError(profilesError.message)
+        setLoading(false)
+        return
+      }
+
+      // 4. Profile map
+      const profilesMap = {}
+      profilesData.forEach(p => {
+        profilesMap[p.id] = p.username
+      })
+
+      // 5. Profile in Bewertungen einfügen
+      const bewertungenWithUsernames = data.bewertungen.map(b => ({
+        ...b,
+        username: profilesMap[b.user_id] || null
+      }))
+
+      setSchwinger(data)
+      setBewertungen(bewertungenWithUsernames)
       setLoading(false)
     }
-    fetchSchwinger()
+
+    fetchSchwingerUndBewertungen()
   }, [id])
 
   if (loading) return <p>Lädt...</p>
@@ -63,6 +109,21 @@ export default function SchwingerDetail() {
             <tr><td><strong>Besonderes:</strong></td><td>{schwinger.besonderes || '–'}</td></tr>
           </tbody>
         </table>
+
+        <div style={{ marginTop: '1rem' }}>
+          <h2>Bewertungen</h2>
+          {bewertungen.length === 0 ? (
+            <p>Dieser Schwinger wurde noch nicht bewertet.</p>
+          ) : (
+            <ul>
+              {bewertungen.map(b => (
+                <li key={b.id}>
+                  <strong>{b.username || 'Unbekannter Nutzer'}</strong>: {b.kommentar || 'Keine Bewertungstexte'}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
 
         <div style={{ marginTop: '1rem' }}>
           <Link href={`/schwinger/${id}/bewerten`}>

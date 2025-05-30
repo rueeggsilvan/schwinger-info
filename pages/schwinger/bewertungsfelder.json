@@ -32,8 +32,8 @@
     "kategorien": ["gegen schwächere", "gegen gleich starke", "gegen stärkere"],
     "felder": [
       {
-        "label": "Vorteile beim Greifen",
-        "names": ["Vorteile_beim_Greifen_A", "Vorteile_beim_Greifen_B", "Vorteile_beim_Greifen_C"]
+        "label": "Voertele beim Greifen",
+        "names": ["Voertele_beim_Greifen_A", "Voertele_beim_Greifen_B", "Voertele_beim_Greifen_C"]
       },
       {
         "label": "Defensive Haltung beim Start",
@@ -66,7 +66,9 @@
   {
     "gruppe": "Allgemeine Eigenschaften",
     "felder": [
-      { "name": "Allgemeiner_Geschwuerfaktor", "label": "Allgemeiner Geschwür Faktor", "type": "number" },
+      { "name": "Allgemeiner_Geschwuerfaktor", "label": "Allgemeiner Geschwürfaktor", "type": "number" },
+      { "name": "Allgemeiner_Nachschlungfaktor", "label": "Allgemeiner Nachschlungfaktor", "type": "number" },
+      { "name": "Allgemeiner_Langes_Elend_Faktor", "label": "Allgemeiner Langes-Elend-Faktor", "type": "number" },
       { "name": "Allgemeiner_Brockenfaktor", "label": "Allgemeiner Brockenfaktor", "type": "number" }
     ]
   },
