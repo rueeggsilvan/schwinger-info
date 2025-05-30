@@ -2,7 +2,7 @@ import { supabase } from '../lib/supabaseClient';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-
+//import './global.css'; // nur nötig, falls nicht global importiert
 
 export default function Layout({ children }) {
   const [session, setSession] = useState(null);
@@ -26,21 +26,23 @@ export default function Layout({ children }) {
   }, []);
 
   return (
-    <div style={{ fontFamily: 'sans-serif', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <header style={{ backgroundColor: '#333', color: 'white', padding: '1rem', display: 'flex', justifyContent: 'space-between' }}>
-        <div><Image src="/logo.png" alt="Zur Schwingerliste" width={100} height={60} /></div>
-        <nav>
-          <Link href="/" style={{ color: 'white', marginRight: '20px' }}>Start</Link>
-          <Link href="/schwinger" style={{ color: 'white', marginRight: '20px' }}> Schwingerliste </Link>
+    <div className="layout">
+      <header className="header">
+        <div className="logo">
+          <Image src="/logo.png" alt="Zur Schwingerliste" width={100} height={60} />
+        </div>
+        <nav className="nav">
+          <Link href="/" className="nav-link">Start</Link>
+          <Link href="/schwinger" className="nav-link">Schwingerliste</Link>
           {session ? (
-            <span>Eingeloggt als {session.user.email}</span>
+            <span className="nav-user">Eingeloggt als {session.user.email}</span>
           ) : (
-            <Link href="/login" style={{ color: 'white' }}>Login</Link>
+            <Link href="/login" className="nav-link">Login</Link>
           )}
         </nav>
       </header>
 
-      <main style={{ flex: 1, padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
+      <main className="main-content">
         {children}
       </main>
     </div>

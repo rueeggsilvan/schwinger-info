@@ -1,4 +1,6 @@
-/* Light Theme Variablen */
+/* ============================
+   Globale Variablen (Light Theme)
+=============================== */
 :root {
   --color-background: #ffffff;
   --color-text: #222222;
@@ -11,7 +13,9 @@
   --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Dark Theme Variablen - automatisch wenn Browser dark mode an hat */
+/* ============================
+   Dark Theme (wenn System Dark Mode nutzt)
+=============================== */
 @media (prefers-color-scheme: dark) {
   :root {
     --color-background: #121212;
@@ -23,11 +27,99 @@
   }
 }
 
-/* Grund-Styles */
+/* ============================
+   Global Reset & Grundlayout
+=============================== */
+* {
+  box-sizing: border-box;
+}
+
 body {
+  margin: 0;
+  padding: 0;
   background-color: var(--color-background);
   color: var(--color-text);
   font-family: var(--font-family);
-  margin: 0;
+  line-height: 1.6;
+}
+
+/* ============================
+   Layout-Klassen
+=============================== */
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background-color: var(--color-primary);
+  color: var(--color-button-text);
   padding: var(--spacing);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo img {
+  display: block;
+}
+
+.nav {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.nav-link {
+  color: var(--color-button-text);
+  text-decoration: none;
+  font-weight: bold;
+  transition: opacity 0.2s;
+}
+
+.nav-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.nav-user {
+  color: var(--color-button-text);
+  font-size: 0.9rem;
+}
+
+.main-content {
+  flex: 1;
+  padding: var(--spacing);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* ============================
+   Buttons (optional global)
+=============================== */
+button {
+  background-color: var(--color-button-bg);
+  color: var(--color-button-text);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* ============================
+   Links
+=============================== */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }

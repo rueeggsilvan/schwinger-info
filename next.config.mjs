@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['esv.ch', 'schlussgang.ch'],
+    domains: ['esv.ch'],
   },
 };
 
