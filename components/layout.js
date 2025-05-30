@@ -53,7 +53,7 @@ export default function Layout({ children }) {
     <div className="layout">
       <header className="header">
         <div className="logo">
-          <Image src="/logo.png" alt="Zur Schwingerliste" width={100} height={60} />
+          <Image src="/logo.png" alt="Zur Schwingerliste" width={150} height={50} />
         </div>
         <nav className="nav">
           <Link href="/" className="nav-link">
