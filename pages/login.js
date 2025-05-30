@@ -18,7 +18,7 @@ export default function Login() {
     const { error } = await supabase.auth.signInWithOtp({ 
       email,
       options: {
-        emailRedirectTo: `http://localhost:3000/auth-callback?next=${encodeURIComponent(currentPath)}`
+        emailRedirectTo: `https://schwinger-info.vercel.app/auth-callback?next=${encodeURIComponent(currentPath)}`
       }
     })
     if (error) {
