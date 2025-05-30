@@ -16,7 +16,8 @@ export default function Bewerten() {
       const { data } = await supabase.auth.getUser()
       if (data?.user) {
         setUser(data.user)
-        setFormData(prev => ({ ...prev, bewerter_name: data.user.email })) // Nur dieses Feld ist Pflicht
+        // Automatisch bewerter_name setzen
+        setFormData(prev => ({ ...prev, bewerter_name: data.user.email }))
       }
     }
     checkUser()
@@ -30,13 +31,13 @@ export default function Bewerten() {
     e.preventDefault()
 
     if (!formData.bewerter_name) {
-      alert('Bitte gib deinen Namen an.')
+      alert('Dein Name muss eingetragen sein.')
       return
     }
 
     const payload = {
       ...formData,
-      schwinger_id: id
+      schwinger_id: id,
     }
 
     const { error } = await supabase.from('bewertungen').insert(payload)
@@ -62,10 +63,10 @@ export default function Bewerten() {
 
   return (
     <Layout>
-      <form onSubmit={handleSubmit} className="space-y-6 p-4 max-w-4xl mx-auto">
+      <form onSubmit={handleSubmit} className="space-y-6 p-4 max-w-3xl mx-auto">
         {felderDefinition.map((gruppe, i) => (
-          <div key={i} className="border-b pb-4 mb-6">
-            <h2 className="text-xl font-semibold mb-4">{gruppe.gruppe}</h2>
+          <div key={i} className="border-b pb-4 mb-4">
+            <h2 className="text-xl font-semibold mb-2">{gruppe.gruppe}</h2>
 
             {gruppe.matrix ? (
               <table className="table-auto w-full border">
@@ -89,7 +90,7 @@ export default function Bewerten() {
                             max="10"
                             value={formData[name] || ''}
                             onChange={(e) => handleChange(name, e.target.value)}
-                            className="border rounded px-2 py-1 w-20"
+                            className="border rounded px-2 py-1 w-full"
                           />
                         </td>
                       ))}
@@ -99,28 +100,23 @@ export default function Bewerten() {
               </table>
             ) : (
               gruppe.felder.map((feld, index) => (
-                <div key={index} className="mb-4">
+                <div key={index} className="mb-2">
+                  <label className="block font-medium mb-1">{feld.label}</label>
                   {feld.type === 'text' ? (
-                    <>
-                      <label className="block font-medium mb-1">{feld.label}</label>
-                      <textarea
-                        value={formData[feld.name] || ''}
-                        onChange={(e) => handleChange(feld.name, e.target.value)}
-                        className="border rounded px-3 py-2 w-full"
-                      />
-                    </>
+                    <textarea
+                      value={formData[feld.name] || ''}
+                      onChange={(e) => handleChange(feld.name, e.target.value)}
+                      className="border rounded px-2 py-1 w-full"
+                    />
                   ) : (
-                    <div className="flex items-center">
-                      <label className="w-64 font-medium">{feld.label}</label>
-                      <input
-                        type="number"
-                        min="1"
-                        max="10"
-                        value={formData[feld.name] || ''}
-                        onChange={(e) => handleChange(feld.name, e.target.value)}
-                        className="border rounded px-2 py-1 w-24"
-                      />
-                    </div>
+                    <input
+                      type="number"
+                      min="1"
+                      max="10"
+                      value={formData[feld.name] || ''}
+                      onChange={(e) => handleChange(feld.name, e.target.value)}
+                      className="border rounded px-2 py-1 w-32"
+                    />
                   )}
                 </div>
               ))
@@ -128,8 +124,8 @@ export default function Bewerten() {
           </div>
         ))}
 
-        <button type="submit" className="bg-blue-500 text-white px-6 py-2 rounded">
-          Bewertung speichern
+        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+          Bewerten
         </button>
       </form>
     </Layout>
