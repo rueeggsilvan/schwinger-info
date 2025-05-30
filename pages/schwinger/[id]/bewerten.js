@@ -8,38 +8,83 @@ import Link from 'next/link'
 export default function Bewerten() {
   const [user, setUser] = useState(null)
   const [formData, setFormData] = useState({})
+  const [schwinger, setSchwinger] = useState(null)
+  const [loading, setLoading] = useState(true)
   const router = useRouter()
   const { id } = router.query
 
   useEffect(() => {
-    const checkUser = async () => {
-      const { data, error } = await supabase.auth.getUser()
-      if (error || !data?.user) {
-        console.error('Fehler beim Abrufen des Benutzers:', error)
+    const fetchData = async () => {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser()
+
+      if (userError || !user) {
+        console.error('Fehler beim Abrufen des Benutzers:', userError)
+        setLoading(false)
         return
       }
-      setUser(data.user)
-      setFormData(prev => ({ ...prev, bewerter_name: data.user.email }))
+
+      setUser(user)
+
+      // Lade Profil
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('username')
+        .eq('id', user.id)
+        .single()
+
+      if (profileError) {
+        console.error('Fehler beim Laden des Profils:', profileError)
+        alert('Fehler beim Laden des Profils')
+        setLoading(false)
+        return
+      }
+
+      setFormData((prev) => ({
+        ...prev,
+        bewerter_name: profile.username,
+      }))
+
+      // Lade Schwinger
+      const { data: schwingerData, error: schwingerError } = await supabase
+        .from('schwinger')
+        .select('vorname, nachname, wohnort')
+        .eq('id', id)
+        .single()
+
+      if (schwingerError) {
+        console.error('Fehler beim Laden des Schwingers:', schwingerError)
+        alert('Schwinger konnte nicht geladen werden.')
+      } else {
+        setSchwinger(schwingerData)
+      }
+
+      setLoading(false)
     }
-    checkUser()
-  }, [])
+
+    if (id) {
+      fetchData()
+    }
+  }, [id])
 
   const handleChange = (name, value) => {
-    setFormData(prev => ({ ...prev, [name]: value }))
+    setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     if (!formData.bewerter_name) {
-      alert('Dein Name muss eingetragen sein.')
+      alert('Dein Benutzername muss gesetzt sein.')
       return
     }
 
     const payload = {
       ...formData,
       schwinger_id: id,
-      user_id: user.id, // Variante B: Nur die User-ID speichern (keine Relationship nötig)
+      user_id: user.id,
     }
 
     const { error } = await supabase.from('bewertungen').insert(payload)
@@ -51,6 +96,14 @@ export default function Bewerten() {
       alert('Bewertung gespeichert.')
       router.push(`/schwinger/${id}`)
     }
+  }
+
+  if (loading) {
+    return (
+      <Layout>
+        <p>Lade Benutzerdaten...</p>
+      </Layout>
+    )
   }
 
   if (!user) {
@@ -66,76 +119,87 @@ export default function Bewerten() {
 
   return (
     <Layout>
-      <form onSubmit={handleSubmit} className="space-y-6 p-4 max-w-3xl mx-auto">
-        {felderDefinition.map((gruppe, i) => (
-          <div key={i} className="border-b pb-4 mb-4">
-            <h2 className="text-xl font-semibold mb-2">{gruppe.gruppe}</h2>
+      <div className="max-w-3xl mx-auto p-4">
+        {schwinger && (
+          <h1 className="text-2xl font-bold mb-2">
+            {schwinger.vorname} {schwinger.nachname} ({schwinger.wohnort})
+          </h1>
+        )}
+        <p className="text-sm mb-4 text-gray-700">
+          Bitte bewerte mit Zahlen von 1 (schwach) bis 5 (sehr stark).
+        </p>
 
-            {gruppe.matrix ? (
-              <table className="table-auto w-full border">
-                <thead>
-                  <tr>
-                    <th className="border px-2 py-1 text-left">Eigenschaft</th>
-                    {gruppe.kategorien.map((kategorie, index) => (
-                      <th key={index} className="border px-2 py-1">{kategorie}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {gruppe.felder.map((feld, index) => (
-                    <tr key={index}>
-                      <td className="label-cell px-2 py-2">{feld.label}</td>
-                      {feld.names.map((name, idx) => (
-                        <td key={idx} className="border px-2 py-1">
-                          <input
-                            type="number"
-                            min="1"
-                            max="10"
-                            value={formData[name] || ''}
-                            onChange={(e) => handleChange(name, e.target.value)}
-                            className="border rounded px-2 py-1 w-full"
-                          />
-                        </td>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {felderDefinition.map((gruppe, i) => (
+            <div key={i} className="border-b pb-4 mb-4">
+              <h2 className="text-xl font-semibold mb-2">{gruppe.gruppe}</h2>
+
+              {gruppe.matrix ? (
+                <table className="table-auto w-full border">
+                  <thead>
+                    <tr>
+                      <th className="border px-2 py-1 text-left">Eigenschaft</th>
+                      {gruppe.kategorien.map((kategorie, index) => (
+                        <th key={index} className="border px-2 py-1">{kategorie}</th>
                       ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              <table className="table-auto w-full">
-                <tbody>
-                  {gruppe.felder.map((feld, index) => (
-                    <tr key={index} className="border-b">
-                      <td className="label-cell px-2 py-2">{feld.label}</td>
-                      <td className="px-2 py-2">
-                        {feld.type === 'text' ? (
-                          <textarea
-                            value={formData[feld.name] || ''}
-                            onChange={(e) => handleChange(feld.name, e.target.value)}
-                            className="border rounded px-2 py-1 w-full"
-                          />
-                        ) : (
-                          <input
-                            type="number"
-                            min="1"
-                            max="10"
-                            value={formData[feld.name] || ''}
-                            onChange={(e) => handleChange(feld.name, e.target.value)}
-                            className="border rounded px-2 py-1 w-32"
-                          />
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
-          </div>
-        ))}
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-          Bewerten
-        </button>
-      </form>
+                  </thead>
+                  <tbody>
+                    {gruppe.felder.map((feld, index) => (
+                      <tr key={index}>
+                        <td className="label-cell px-2 py-2">{feld.label}</td>
+                        {feld.names.map((name, idx) => (
+                          <td key={idx} className="border px-2 py-1">
+                            <input
+                              type="number"
+                              min="1"
+                              max="5"
+                              value={formData[name] || ''}
+                              onChange={(e) => handleChange(name, e.target.value)}
+                              className="border rounded px-2 py-1 w-full"
+                            />
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : (
+                <table className="table-auto w-full">
+                  <tbody>
+                    {gruppe.felder.map((feld, index) => (
+                      <tr key={index} className="border-b">
+                        <td className="label-cell px-2 py-2">{feld.label}</td>
+                        <td className="px-2 py-2">
+                          {feld.type === 'text' ? (
+                            <textarea
+                              value={formData[feld.name] || ''}
+                              onChange={(e) => handleChange(feld.name, e.target.value)}
+                              className="border rounded px-2 py-1 w-full"
+                            />
+                          ) : (
+                            <input
+                              type="number"
+                              min="1"
+                              max="5"
+                              value={formData[feld.name] || ''}
+                              onChange={(e) => handleChange(feld.name, e.target.value)}
+                              className="border rounded px-2 py-1 w-32"
+                            />
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
+          ))}
+          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+            Bewerten
+          </button>
+        </form>
+      </div>
     </Layout>
   )
 }
