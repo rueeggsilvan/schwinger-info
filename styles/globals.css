@@ -4,8 +4,8 @@
 :root {
   --color-background: #ffffff;
   --color-text: #222222;
-  --color-primary: #1d3557;
-  --color-secondary: #e63946;
+  --color-primary: #cf505a;
+  --color-secondary: #3945e6;
   --color-button-text: #ffffff;
   --color-button-bg: var(--color-primary);
   --border-radius: 6px;
@@ -20,8 +20,8 @@
   :root {
     --color-background: #121212;
     --color-text: #e0e0e0;
-    --color-primary: #a8dadc;
-    --color-secondary: #f4a261;
+    --color-primary: #cf505a;
+    --color-secondary: #3945e6;
     --color-button-text: #121212;
     --color-button-bg: var(--color-primary);
   }
