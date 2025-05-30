@@ -99,31 +99,36 @@ export default function Bewerten() {
                 </tbody>
               </table>
             ) : (
-              gruppe.felder.map((feld, index) => (
-                <div key={index} className="mb-2">
-                  <label className="block font-medium mb-1">{feld.label}</label>
-                  {feld.type === 'text' ? (
-                    <textarea
-                      value={formData[feld.name] || ''}
-                      onChange={(e) => handleChange(feld.name, e.target.value)}
-                      className="border rounded px-2 py-1 w-full"
-                    />
-                  ) : (
-                    <input
-                      type="number"
-                      min="1"
-                      max="10"
-                      value={formData[feld.name] || ''}
-                      onChange={(e) => handleChange(feld.name, e.target.value)}
-                      className="border rounded px-2 py-1 w-32"
-                    />
-                  )}
-                </div>
-              ))
+              <table className="table-auto w-full">
+                <tbody>
+                  {gruppe.felder.map((feld, index) => (
+                    <tr key={index} className="border-b">
+                      <td className="px-2 py-2 align-top font-medium">{feld.label}</td>
+                      <td className="px-2 py-2">
+                        {feld.type === 'text' ? (
+                          <textarea
+                            value={formData[feld.name] || ''}
+                            onChange={(e) => handleChange(feld.name, e.target.value)}
+                            className="border rounded px-2 py-1 w-full"
+                          />
+                        ) : (
+                          <input
+                            type="number"
+                            min="1"
+                            max="10"
+                            value={formData[feld.name] || ''}
+                            onChange={(e) => handleChange(feld.name, e.target.value)}
+                            className="border rounded px-2 py-1 w-32"
+                          />
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             )}
           </div>
         ))}
-
         <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
           Bewerten
         </button>
