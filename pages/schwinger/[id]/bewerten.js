@@ -16,6 +16,7 @@ export default function Bewerten() {
       const { data } = await supabase.auth.getUser()
       if (data?.user) {
         setUser(data.user)
+        setFormData(prev => ({ ...prev, bearbeiter: data.user.email })) // Nur dieses Feld ist Pflicht
       }
     }
     checkUser()
@@ -27,6 +28,12 @@ export default function Bewerten() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    if (!formData.bearbeiter) {
+      alert('Bearbeiter muss eingetragen sein.')
+      return
+    }
+
     const payload = {
       ...formData,
       schwinger_id: id
@@ -60,7 +67,6 @@ export default function Bewerten() {
           <div key={i} className="border-b pb-4 mb-4">
             <h2 className="text-xl font-semibold mb-2">{gruppe.gruppe}</h2>
 
-            {/* Matrix Darstellung */}
             {gruppe.matrix ? (
               <table className="table-auto w-full border">
                 <thead>
@@ -83,8 +89,6 @@ export default function Bewerten() {
                             max="10"
                             value={formData[name] || ''}
                             onChange={(e) => handleChange(name, e.target.value)}
-                            className="w-full border rounded px-1"
-                            required
                           />
                         </td>
                       ))}
@@ -95,14 +99,11 @@ export default function Bewerten() {
             ) : (
               gruppe.felder.map((feld, index) => (
                 <div key={index} className="mb-2">
-                  <label className="block font-medium">{feld.label}</label>
+                  <label className="block font-medium mb-1">{feld.label}</label>
                   {feld.type === 'text' ? (
-                    <input
-                      type="text"
+                    <textarea
                       value={formData[feld.name] || ''}
                       onChange={(e) => handleChange(feld.name, e.target.value)}
-                      className="w-full border rounded px-2 py-1"
-                      required
                     />
                   ) : (
                     <input
@@ -111,8 +112,6 @@ export default function Bewerten() {
                       max="10"
                       value={formData[feld.name] || ''}
                       onChange={(e) => handleChange(feld.name, e.target.value)}
-                      className="w-full border rounded px-2 py-1"
-                      required
                     />
                   )}
                 </div>
@@ -128,4 +127,3 @@ export default function Bewerten() {
     </Layout>
   )
 }
-

@@ -123,3 +123,35 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+/* =============================
+  Gemeinsame Basis-Styles für alle Eingabefelder 
+================================ */
+input[type="text"],
+input[type="number"],
+textarea {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius);
+  box-sizing: border-box;
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+/* Volle Breite nur bei Textfeldern */
+input[type="text"],
+textarea {
+  width: 100%;
+  resize: vertical;
+}
+
+/* Größere Höhe bei Textbereichen */
+textarea {
+  min-height: 120px;
+}
+
+/* Optional: Kleine, feste Breite bei Zahlen */
+input[type="number"] {
+  width: 6rem; /* Du kannst den Wert bei Bedarf anpassen */
+}
