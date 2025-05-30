@@ -27,25 +27,25 @@ export default function Bewerten() {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!formData.bearbeiter) {
-      alert('Bearbeiter muss eingetragen sein.')
-      return
+      alert('Bearbeiter muss eingetragen sein.');
+      return;
     }
 
     const payload = {
       ...formData,
       schwinger_id: id
-    }
+    };
 
-    const { error } = await supabase.from('bewertungen').insert(payload)
+    const { error } = await supabase.from('bewertungen').insert(payload);
 
     if (error) {
-      alert('Fehler beim Speichern der Bewertung.')
-      console.error(error)
+      alert(`Fehler beim Speichern der Bewertung: ${error.message}`);
+      console.error('Supabase Insert Error:', error);
     } else {
-      alert('Bewertung gespeichert.')
+      alert('Bewertung gespeichert.');
     }
   }
 
