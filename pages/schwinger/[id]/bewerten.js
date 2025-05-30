@@ -67,36 +67,34 @@ export default function Bewerten() {
           <div key={i} className="border-b pb-4 mb-6">
             <h2 className="text-xl font-semibold mb-4">{gruppe.gruppe}</h2>
 
-            {gruppe.matrix ? (
-              <table className="table-auto w-full border">
-                <thead>
-                  <tr>
-                    <th className="border px-2 py-1 text-left">Eigenschaft</th>
-                    {gruppe.kategorien.map((kategorie, index) => (
-                      <th key={index} className="border px-2 py-1">{kategorie}</th>
-                    ))}
+            {!gruppe.matrix ? (
+              <table className="table-auto w-full">
+              <tbody>
+                {gruppe.felder.map((feld, index) => (
+                  <tr key={index} className="align-top">
+                    <td className="pr-4 py-2 font-medium w-64">{feld.label}</td>
+                    <td className="py-2">
+                      {feld.type === 'text' ? (
+                        <textarea
+                          value={formData[feld.name] || ''}
+                          onChange={(e) => handleChange(feld.name, e.target.value)}
+                          className="border rounded px-3 py-2 w-full"
+                        />
+                      ) : (
+                        <input
+                          type="number"
+                          min="1"
+                          max="10"
+                          value={formData[feld.name] || ''}
+                          onChange={(e) => handleChange(feld.name, e.target.value)}
+                          className="border rounded px-2 py-1 w-24"
+                        />
+                      )}
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {gruppe.felder.map((feld, index) => (
-                    <tr key={index}>
-                      <td className="border px-2 py-1">{feld.label}</td>
-                      {feld.names.map((name, idx) => (
-                        <td key={idx} className="border px-2 py-1">
-                          <input
-                            type="number"
-                            min="1"
-                            max="10"
-                            value={formData[name] || ''}
-                            onChange={(e) => handleChange(name, e.target.value)}
-                            className="border rounded px-2 py-1 w-20"
-                          />
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                ))}
+              </tbody>
+            </table>
             ) : (
               gruppe.felder.map((feld, index) => (
                 <div key={index} className="mb-4">
