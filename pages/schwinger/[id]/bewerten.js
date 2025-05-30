@@ -81,7 +81,7 @@ export default function Bewerten() {
                 <tbody>
                   {gruppe.felder.map((feld, index) => (
                     <tr key={index}>
-                      <td className="border px-2 py-1">{feld.label}</td>
+                      <td className="label-cell px-2 py-2">{feld.label}</td>
                       {feld.names.map((name, idx) => (
                         <td key={idx} className="border px-2 py-1">
                           <input
@@ -103,7 +103,7 @@ export default function Bewerten() {
                 <tbody>
                   {gruppe.felder.map((feld, index) => (
                     <tr key={index} className="border-b">
-                      <td className="px-2 py-2 align-top font-medium">{feld.label}</td>
+                      <td className="label-cell px-2 py-2">{feld.label}</td>
                       <td className="px-2 py-2">
                         {feld.type === 'text' ? (
                           <textarea

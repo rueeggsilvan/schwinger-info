@@ -155,3 +155,13 @@ textarea {
 input[type="number"] {
   width: 6rem; /* Du kannst den Wert bei Bedarf anpassen */
 }
+
+/* ================================
+   Einheitliche Tabellen-Label-Spalte
+=================================== */
+td.label-cell {
+  width: 12rem; /* oder z.B. 10rem je nach Bedarf */
+  white-space: nowrap;
+  vertical-align: top;
+  font-weight: 500;
+}
