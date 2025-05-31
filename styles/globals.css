@@ -165,3 +165,54 @@ td.label-cell {
   vertical-align: top;
   font-weight: 500;
 }
+
+/* ============================
+   Responsive Navigation (Header + Menü)
+=============================== */
+
+/* Hamburger-Schaltfläche */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--color-button-text);
+  cursor: pointer;
+}
+
+/* Mobile Menü (standardmäßig versteckt) */
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .nav.open {
+    display: flex;
+  }
+
+  .nav-link,
+  .nav-user,
+  .nav button {
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem 0;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

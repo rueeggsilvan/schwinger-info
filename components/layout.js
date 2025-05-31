@@ -6,6 +6,7 @@ import Image from 'next/image';
 export default function Layout({ children }) {
   const [session, setSession] = useState(null);
   const [profile, setProfile] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const getSessionAndProfile = async () => {
@@ -24,11 +25,11 @@ export default function Layout({ children }) {
         if (!error) setProfile(profileData);
       }
     };
+
     getSessionAndProfile();
 
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
-
       if (session?.user) {
         supabase
           .from('profiles')
@@ -53,36 +54,48 @@ export default function Layout({ children }) {
     <div className="layout">
       <header className="header">
         <div className="logo">
-          <Image src="/logo.png" alt="Zur Schwingerliste" width={150} height={50} />
+          <Link href="/">
+            <Image src="/logo.png" alt="Zur Schwingerliste" width={150} height={50} />
+          </Link>
         </div>
-        <nav className="nav">
-          <Link href="/" className="nav-link">
+
+        <button
+          className="menu-toggle"
+          onClick={() => setMenuOpen((prev) => !prev)}
+          aria-label="Menü öffnen/schließen"
+        >
+          ☰
+        </button>
+
+        <nav className={`nav ${menuOpen ? 'open' : ''}`}>
+          <Link href="/" className="nav-link" onClick={() => setMenuOpen(false)}>
             Start
           </Link>
-          <Link href="/schwinger" className="nav-link">
+          <Link href="/schwinger" className="nav-link" onClick={() => setMenuOpen(false)}>
             Schwingerliste
           </Link>
 
           {session ? (
-            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+            <>
               <span className="nav-user">
                 Eingeloggt als <strong>{profile?.username || session.user.email}</strong>
               </span>
-              <Link href="/profil">
-                <button>Profil bearbeiten</button>
+              <Link href="/profil" className="nav-link" onClick={() => setMenuOpen(false)}>
+                Profil bearbeiten
               </Link>
               <button
                 onClick={async () => {
                   await supabase.auth.signOut();
                   setSession(null);
                   setProfile(null);
+                  setMenuOpen(false);
                 }}
               >
                 Logout
               </button>
-            </div>
+            </>
           ) : (
-            <Link href="/login" className="nav-link">
+            <Link href="/login" className="nav-link" onClick={() => setMenuOpen(false)}>
               Login
             </Link>
           )}

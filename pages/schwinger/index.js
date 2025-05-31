@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react' 
+import { useEffect, useState, useRef } from 'react'
 import { supabase } from '../../lib/supabaseClient'
 import Link from 'next/link'
 import Layout from '../../components/layout'
@@ -7,14 +7,15 @@ import Image from 'next/image'
 export default function Home() {
   const [schwinger, setSchwinger] = useState([])
   const [filteredSchwinger, setFilteredSchwinger] = useState([])
+  const [visibleCount, setVisibleCount] = useState(10)
   const [searchTerm, setSearchTerm] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const loaderRef = useRef(null)
 
   useEffect(() => {
     async function fetchSchwinger() {
       setLoading(true)
-      // 1. Schwinger mit Bewertungen ohne Profile
       const { data, error } = await supabase
         .from('schwinger')
         .select(`
@@ -32,10 +33,8 @@ export default function Home() {
         return
       }
 
-      // 2. Alle user_ids aus Bewertungen sammeln
       const userIds = [...new Set(data.flatMap(s => s.bewertungen.map(b => b.user_id)))].filter(Boolean)
 
-      // 3. Profile der User laden
       const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
         .select('id, username')
@@ -48,13 +47,11 @@ export default function Home() {
         return
       }
 
-      // 4. Profile mappen für schnellen Zugriff
       const profilesMap = {}
       profilesData.forEach(p => {
         profilesMap[p.id] = p.username
       })
 
-      // 5. Profiles in Bewertungen einfügen
       const dataWithProfiles = data.map(s => {
         const bewertungenWithUsernames = s.bewertungen.map(b => ({
           ...b,
@@ -67,6 +64,7 @@ export default function Home() {
       setFilteredSchwinger(dataWithProfiles)
       setLoading(false)
     }
+
     fetchSchwinger()
   }, [])
 
@@ -75,7 +73,29 @@ export default function Home() {
       `${s.vorname} ${s.name} ${s.wohnort}`.toLowerCase().includes(searchTerm.toLowerCase())
     )
     setFilteredSchwinger(filtered)
+    setVisibleCount(10) // Zurücksetzen bei neuer Suche
   }, [searchTerm, schwinger])
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(entries => {
+      const first = entries[0]
+      if (first.isIntersecting) {
+        setVisibleCount(prev => {
+          const newCount = prev + 10
+          return newCount > filteredSchwinger.length ? filteredSchwinger.length : newCount
+        })
+      }
+    }, { threshold: 1 })
+
+    const currentLoader = loaderRef.current
+    if (currentLoader) {
+      observer.observe(currentLoader)
+    }
+
+    return () => {
+      if (currentLoader) observer.unobserve(currentLoader)
+    }
+  }, [filteredSchwinger])
 
   if (loading) return <p>Lade Schwingerliste...</p>
   if (error) return <p style={{ color: 'red' }}>Fehler: {error}</p>
@@ -92,9 +112,9 @@ export default function Home() {
           style={{ padding: '0.5rem', marginBottom: '1rem', width: '100%', maxWidth: '400px' }}
         />
         {filteredSchwinger.length === 0 && <p>Keine Schwinger gefunden.</p>}
-        <ul>
-          {filteredSchwinger.map((s) => {
-            const ersteBewertung = s.bewertungen && s.bewertungen.length > 0 ? s.bewertungen[0] : null
+        <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
+          {filteredSchwinger.slice(0, visibleCount).map((s) => {
+            const ersteBewertung = s.bewertungen?.[0]
             const bewertungUsername = ersteBewertung?.username
 
             return (
@@ -139,6 +159,10 @@ export default function Home() {
             )
           })}
         </ul>
+
+        {/* Loader-Element zum Beobachten */}
+        <div ref={loaderRef} style={{ height: '2rem' }} />
+
       </div>
     </Layout>
   )
