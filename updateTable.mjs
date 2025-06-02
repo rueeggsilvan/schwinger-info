@@ -5,15 +5,15 @@ import csv from 'csv-parser';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 
-console.log('✅ Geladene URL:', process.env.NEXT_PUBLIC_SUPABASE_URL);
-console.log('✅ Geladener KEY:', process.env.SUPABASE_SERVICE_KEY?.slice(0, 10), '...');
-
 // 🔁 __dirname für .mjs erzeugen
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // 🌱 .env.local laden
 dotenv.config({ path: path.join(__dirname, '.env.local') });
+console.log('✅ Geladene URL:', process.env.NEXT_PUBLIC_SUPABASE_URL);
+console.log('✅ Geladener KEY:', process.env.SUPABASE_SERVICE_KEY?.slice(0, 10), '...');
+console.log(Object.keys(process.env))
 
 // 🔑 Supabase-Client initialisieren
 const supabase = createClient(
@@ -37,6 +37,13 @@ fs.createReadStream(CSV_FILE)
 
     for (const row of rows) {
       const { id, ...updateFields } = row;
+  
+    // Leere Strings in null umwandeln (für alle Felder)
+      Object.keys(updateFields).forEach(key => {
+      if (updateFields[key] === "") {
+        updateFields[key] = null;
+      }
+      });
 
       const { error } = await supabase
         .from(TABLE)

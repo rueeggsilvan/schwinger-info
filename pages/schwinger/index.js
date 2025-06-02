@@ -9,6 +9,7 @@ export default function Home() {
   const [filteredSchwinger, setFilteredSchwinger] = useState([])
   const [visibleCount, setVisibleCount] = useState(10)
   const [searchTerm, setSearchTerm] = useState('')
+  const [teilverbandFilter, setTeilverbandFilter] = useState('') // neu
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const loaderRef = useRef(null)
@@ -69,12 +70,14 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    const filtered = schwinger.filter(s =>
-      `${s.vorname} ${s.name} ${s.wohnort}`.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+    const filtered = schwinger.filter(s => {
+      const matchesSearch = `${s.vorname} ${s.name} ${s.wohnort}`.toLowerCase().includes(searchTerm.toLowerCase())
+      const matchesTeilverband = teilverbandFilter === '' || s.teilverband === teilverbandFilter
+      return matchesSearch && matchesTeilverband
+    })
     setFilteredSchwinger(filtered)
-    setVisibleCount(10) // Zurücksetzen bei neuer Suche
-  }, [searchTerm, schwinger])
+    setVisibleCount(10) // Zurücksetzen bei neuer Suche oder Filter
+  }, [searchTerm, teilverbandFilter, schwinger])
 
   useEffect(() => {
     const observer = new IntersectionObserver(entries => {
@@ -100,17 +103,33 @@ export default function Home() {
   if (loading) return <p>Lade Schwingerliste...</p>
   if (error) return <p style={{ color: 'red' }}>Fehler: {error}</p>
 
+  // Teilverband-Optionen aus den Daten ermitteln (ohne Duplikate)
+  const teilverbandOptions = Array.from(new Set(schwinger.map(s => s.teilverband).filter(Boolean))).sort()
+
   return (
     <Layout>
       <div style={{ padding: '2rem' }}>
         <h1>Schwingerliste</h1>
-        <input
-          type="text"
-          placeholder="Nach Schwinger suchen (Name, Vorname, Wohnort)..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          style={{ padding: '0.5rem', marginBottom: '1rem', width: '100%', maxWidth: '400px' }}
-        />
+        <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
+          <input
+            type="text"
+            placeholder="Nach Schwinger suchen (Name, Vorname, Wohnort)..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{ padding: '0.5rem', flexGrow: 1, minWidth: '250px' }}
+          />
+          <select
+            value={teilverbandFilter}
+            onChange={e => setTeilverbandFilter(e.target.value)}
+            style={{ padding: '0.5rem', minWidth: '150px' }}
+          >
+            <option value="">Alle Teilverbände</option>
+            {teilverbandOptions.map(tv => (
+              <option key={tv} value={tv}>{tv}</option>
+            ))}
+          </select>
+        </div>
+
         {filteredSchwinger.length === 0 && <p>Keine Schwinger gefunden.</p>}
         <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
           {filteredSchwinger.slice(0, visibleCount).map((s) => {
