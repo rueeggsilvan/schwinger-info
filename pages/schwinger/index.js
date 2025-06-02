@@ -70,7 +70,9 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    const filtered = schwinger.filter(s => {
+    const filtered = schwinger
+    .filter(s => s.teilverband !== 'NOSV')
+    .filter(s => {
       const matchesSearch = `${s.vorname} ${s.name} ${s.wohnort}`.toLowerCase().includes(searchTerm.toLowerCase())
       const matchesTeilverband = teilverbandFilter === '' || s.tv === teilverbandFilter
       return matchesSearch && matchesTeilverband
