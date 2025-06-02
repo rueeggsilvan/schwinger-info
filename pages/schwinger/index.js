@@ -72,7 +72,7 @@ export default function Home() {
   useEffect(() => {
     const filtered = schwinger.filter(s => {
       const matchesSearch = `${s.vorname} ${s.name} ${s.wohnort}`.toLowerCase().includes(searchTerm.toLowerCase())
-      const matchesTeilverband = teilverbandFilter === '' || s.teilverband === teilverbandFilter
+      const matchesTeilverband = teilverbandFilter === '' || s.tv === teilverbandFilter
       return matchesSearch && matchesTeilverband
     })
     setFilteredSchwinger(filtered)
@@ -104,7 +104,7 @@ export default function Home() {
   if (error) return <p style={{ color: 'red' }}>Fehler: {error}</p>
 
   // Teilverband-Optionen aus den Daten ermitteln (ohne Duplikate)
-  const teilverbandOptions = Array.from(new Set(schwinger.map(s => s.teilverband).filter(Boolean))).sort()
+  const teilverbandOptions = Array.from(new Set(schwinger.map(s => s.tv).filter(Boolean))).sort()
 
   return (
     <Layout>
