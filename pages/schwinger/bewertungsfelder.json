@@ -2,8 +2,8 @@
   {
     "gruppe": "Allgemein",
     "felder": [
-      { "name": "bewerter_name", "label": "Dein Name", "type": "text" },
-      { "name": "kommentar", "label": "Kommentar", "type": "text" }
+      { "name": "bewerter_name", "label": "Dein Name \n (automatisch gesetzt)", "type": "text" },
+      { "name": "kommentar", "label": "Kommentar \n (sichtbar für alle)", "type": "text" }
     ]
   },
   {
