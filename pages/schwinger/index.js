@@ -103,10 +103,7 @@ export default function Home() {
       }
     }
   }, [filteredSchwinger])
-
-  const ersteBewertung = s.bewertungen?.[0]
-  const bewertungUsername = ersteBewertung?.username
-    
+   
   return (
     <Layout>
       <main className="main-content">
@@ -137,6 +134,8 @@ export default function Home() {
 
         <ul className="grid-list">
           {filteredSchwinger.slice(0, visibleCount).map(s => {
+            const ersteBewertung = s.bewertungen?.[0]
+            const bewertungUsername = ersteBewertung?.username
             return (
               <li key={s.id} className="grid-list-item">
               <Link href={`/schwinger/${s.id}`} className="item-link">
