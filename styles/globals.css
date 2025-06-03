@@ -153,7 +153,7 @@ textarea {
 
 /* Optionale kleine, feste Breite bei Zahlen */
 input[type="number"] {
-  width: 6rem; /* anpassbar */
+  width: 6rem;
 }
 
 /* ================================
@@ -217,33 +217,50 @@ td.label-cell {
   }
 }
 
-/* ===============================
-   Grid-Layout für Schwinger-Liste
-================================= */
+/* =============================
+   Schwingerliste Grid Styling
+=============================== */
 .grid-list {
   list-style: none;
-  padding-left: 0;
+  padding: 0;
   margin: 0;
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
-.grid-list > li {
-  margin: 0; /* margin in grid handled by gap */
+.grid-list-item {
+  background-color: var(--color-background);
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 }
 
-/* 1-spaltig auf kleinen Bildschirmen */
-@media (max-width: 600px) {
-  .grid-list {
-    grid-template-columns: 1fr;
-  }
+.item-link {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+  width: 100%;
 }
 
-/* Bild in Liste */
-.list-image {
+.item-image {
+  flex-shrink: 0;
   width: 100px;
   height: 100px;
-  object-fit: cover;
   border-radius: var(--border-radius);
+  object-fit: cover;
+}
+
+.item-image.placeholder {
+  background-color: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #666;
+  font-size: 0.85rem;
 }
