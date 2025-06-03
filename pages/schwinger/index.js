@@ -126,7 +126,7 @@ export default function Home() {
           <option value="OSV">OSV</option>
           <option value="EOV">EOV</option>
           <option value="BVS">BVS</option>
-          //<option value="NOSV">NOSV</option>
+          {/*<option value="NOSV">NOSV</option>*/}
         </select>
 
         {loading && <p>Lade Daten...</p>}
@@ -155,11 +155,7 @@ export default function Home() {
                   <div><strong>{s.vorname} {s.name}</strong></div>
                   <div>{s.wohnort}</div>
                   <div>{s.tv}</div>
-                  <div>
-                      {bewertungUsername
-                        ? `Bewertet von: ${bewertungUsername}`
-                        : 'Noch nicht bewertet'}
-                  </div>
+                  <div>{bewertungUsername? `Bewertet von: ${bewertungUsername}`: 'Noch nicht bewertet'}</div>
                 {/* Weitere Infos hier */}
                 </div>
               </Link>
