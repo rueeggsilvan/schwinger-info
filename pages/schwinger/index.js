@@ -152,6 +152,7 @@ export default function Home() {
                   <div className="item-text">
                   <div><strong>{s.vorname} {s.name}</strong></div>
                   <div>{s.wohnort}</div>
+                  <div>{s.tv}</div>
                 {/* Weitere Infos hier */}
                 </div>
               </Link>
