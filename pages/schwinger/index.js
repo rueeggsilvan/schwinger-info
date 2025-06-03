@@ -136,28 +136,26 @@ export default function Home() {
           {filteredSchwinger.slice(0, visibleCount).map(s => {
             return (
               <li key={s.id} className="grid-list-item">
-                <Link href={`/schwinger/${s.id}`} className="item-link">
-                  {s.bild_url ? (
-                    <Image
-                      src={s.bild_url}
-                      alt={`${s.vorname} ${s.name}`}
-                      width={100}
-                      height={100}
-                      style={{ objectFit: 'cover' }}
-                      className="item-image"
-                    />
-                  ) : (
-                    <div className="item-image placeholder">Kein Bild</div>
-                  )}
+              <Link href={`/schwinger/${s.id}`} className="item-link">
+                {s.bild_url ? (
+                  <Image
+                    src={s.bild_url}
+                    alt={`${s.vorname} ${s.name}`}
+                    width={100}
+                    height={100}
+                    className="item-image"
+                    style={{ objectFit: 'cover' }}
+                  />
+                ) : (
+                  <div className="item-image placeholder">Kein Bild</div>
+                )}
                   <div className="item-text">
-                    <div><strong>{s.vorname} {s.name}</strong></div>
-                    <div>{s.wohnort}</div>
-                    <div>
-                      {/* Hier könntest du Bewertungen anzeigen, falls gewünscht */}
-                    </div>
-                  </div>
-                </Link>
-              </li>
+                  <div><strong>{s.vorname} {s.name}</strong></div>
+                  <div>{s.wohnort}</div>
+                {/* Weitere Infos hier */}
+                </div>
+              </Link>
+            </li>
             )
           })}
         </ul>
