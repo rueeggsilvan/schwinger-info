@@ -158,7 +158,7 @@ export default function Home() {
                   <div>
                       {bewertungUsername
                         ? `Bewertet von: ${bewertungUsername}`
-                        : 'Noch nicht bewertet'}More actions
+                        : 'Noch nicht bewertet'}
                   </div>
                 {/* Weitere Infos hier */}
                 </div>
