@@ -169,6 +169,7 @@ td.label-cell {
 
 table.table-auto.w-full {
    width: 100%;
+   text-align: left;
 }
 /* ============================
    Responsive Navigation (Header + Menü)
