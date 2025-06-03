@@ -167,10 +167,9 @@ td.label-cell {
   font-weight: 500;
 }
 
-tr.border-b {
+table.table-auto.w-full {
    width: 100%;
 }
-
 /* ============================
    Responsive Navigation (Header + Menü)
 =============================== */
