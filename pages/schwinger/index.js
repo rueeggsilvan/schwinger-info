@@ -9,7 +9,7 @@ export default function Home() {
   const [filteredSchwinger, setFilteredSchwinger] = useState([])
   const [visibleCount, setVisibleCount] = useState(10)
   const [searchTerm, setSearchTerm] = useState('')
-  const [teilverbandFilter, setTeilverbandFilter] = useState('') // neu
+  const [teilverbandFilter, setTeilverbandFilter] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const loaderRef = useRef(null)
@@ -71,14 +71,14 @@ export default function Home() {
 
   useEffect(() => {
     const filtered = schwinger
-    .filter(s => s.tv !== 'NOSV')
-    .filter(s => {
-      const matchesSearch = `${s.vorname} ${s.name} ${s.wohnort}`.toLowerCase().includes(searchTerm.toLowerCase())
-      const matchesTeilverband = teilverbandFilter === '' || s.tv === teilverbandFilter
-      return matchesSearch && matchesTeilverband
-    })
+      .filter(s => s.tv !== 'NOSV')
+      .filter(s => {
+        const matchesSearch = `${s.vorname} ${s.name} ${s.wohnort}`.toLowerCase().includes(searchTerm.toLowerCase())
+        const matchesTeilverband = teilverbandFilter === '' || s.tv === teilverbandFilter
+        return matchesSearch && matchesTeilverband
+      })
     setFilteredSchwinger(filtered)
-    setVisibleCount(10) // Zurücksetzen bei neuer Suche oder Filter
+    setVisibleCount(10)
   }, [searchTerm, teilverbandFilter, schwinger])
 
   useEffect(() => {
@@ -105,7 +105,6 @@ export default function Home() {
   if (loading) return <p>Lade Schwingerliste...</p>
   if (error) return <p style={{ color: 'red' }}>Fehler: {error}</p>
 
-  // Teilverband-Optionen aus den Daten ermitteln (ohne Duplikate)
   const teilverbandOptions = Array.from(new Set(schwinger.map(s => s.tv).filter(Boolean))).sort()
 
   return (
@@ -115,15 +114,15 @@ export default function Home() {
         <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
           <input
             type="text"
-            placeholder="Nach Schwinger suchen (Name, Vorname, Wohnort)..."
+            placeholder="Suche nach Name oder Ort"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            style={{ padding: '0.5rem', flexGrow: 1, minWidth: '250px' }}
+            onChange={e => setSearchTerm(e.target.value)}
+            style={{ flexGrow: 1, minWidth: '200px' }}
           />
           <select
             value={teilverbandFilter}
             onChange={e => setTeilverbandFilter(e.target.value)}
-            style={{ padding: '0.5rem', minWidth: '150px' }}
+            style={{ minWidth: '150px' }}
           >
             <option value="">Alle Teilverbände</option>
             {teilverbandOptions.map(tv => (
@@ -132,64 +131,46 @@ export default function Home() {
           </select>
         </div>
 
-        {filteredSchwinger.length === 0 && <p>Keine Schwinger gefunden.</p>}
-        <ul style={{ 
-            listStyle: 'none',
-            paddingLeft: 0,
-            display: 'grid',
-            gap: '1rem',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))'
-        }}>
-          {filteredSchwinger.slice(0, visibleCount).map((s) => {
-            const ersteBewertung = s.bewertungen?.[0]
-            const bewertungUsername = ersteBewertung?.username
-
-            return (
-              <li key={s.id} style={{ margin: '1rem 0' }}>
-                <Link
-                  href={`/schwinger/${s.id}`}
-                  style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '1rem' }}
+        <ul className="grid-list">
+          {filteredSchwinger.slice(0, visibleCount).map(s => (
+            <li key={s.id} style={{ border: '1px solid #ddd', borderRadius: '6px', padding: '1rem', display: 'flex', gap: '1rem', alignItems: 'center' }}>
+              {s.bild ? (
+                <img
+                  src={s.bild}
+                  alt={`${s.vorname} ${s.name}`}
+                  className="list-image"
+                  loading="lazy"
+                />
+              ) : (
+                <div
+                  className="list-image"
+                  style={{ backgroundColor: '#eee', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#999', fontSize: '0.8rem' }}
                 >
-                  {s.bild_url ? (
-                    <Image
-                      src={s.bild_url}
-                      alt={s.name}
-                      width={100}
-                      height={100}
-                      style={{ objectFit: 'cover' }}
-                    />
-                  ) : (
-                    <div
-                      style={{
-                        width: 100,
-                        height: 100,
-                        backgroundColor: '#ccc',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}
-                    >
-                      Kein Bild
-                    </div>
-                  )}
-                  <div>
-                    <div><strong>{s.vorname} {s.name}</strong></div>
-                    <div>{s.wohnort}</div>
-                    <div>
-                      {bewertungUsername
-                        ? `Bewertet von: ${bewertungUsername}`
-                        : 'Noch nicht bewertet'}
-                    </div>
-                  </div>
+                  Kein Bild
+                </div>
+              )}
+              <div>
+                <Link href={`/schwinger/${s.id}`}>
+                  <a style={{ fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--color-primary)' }}>
+                    {s.vorname} {s.name}
+                  </a>
                 </Link>
-              </li>
-            )
-          })}
+                <p>{s.tv}</p>
+                <p>{s.wohnort}</p>
+              </div>
+            </li>
+          ))}
         </ul>
 
-        {/* Loader-Element zum Beobachten */}
-        <div ref={loaderRef} style={{ height: '2rem' }} />
+        <div ref={loaderRef} style={{ height: '1px' }} />
 
+        {visibleCount < filteredSchwinger.length && (
+          <p style={{ textAlign: 'center', marginTop: '1rem' }}>Scroll nach unten zum Laden...</p>
+        )}
+
+        {filteredSchwinger.length === 0 && (
+          <p>Keine Schwinger gefunden.</p>
+        )}
       </div>
     </Layout>
   )
