@@ -122,7 +122,7 @@ export default function Bewerten() {
       <div className="max-w-3xl mx-auto p-4">
         {schwinger && (
           <h1 className="text-2xl font-bold mb-2">
-            {schwinger.vorname} {schwinger.nachname} ({schwinger.wohnort})
+            {schwinger.vorname} {schwinger.name} ({schwinger.wohnort})
           </h1>
         )}
         <p className="text-sm mb-4 text-gray-700">
