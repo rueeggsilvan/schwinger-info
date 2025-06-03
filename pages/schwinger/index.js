@@ -98,80 +98,72 @@ export default function Home() {
     }
 
     return () => {
-      if (currentLoader) observer.unobserve(currentLoader)
+      if (currentLoader) {
+        observer.unobserve(currentLoader)
+      }
     }
   }, [filteredSchwinger])
 
-  if (loading) return <p>Lade Schwingerliste...</p>
-  if (error) return <p style={{ color: 'red' }}>Fehler: {error}</p>
-
-  const teilverbandOptions = Array.from(new Set(schwinger.map(s => s.tv).filter(Boolean))).sort()
-
   return (
     <Layout>
-      <div style={{ padding: '2rem' }}>
+      <main className="main-content">
         <h1>Schwingerliste</h1>
-        <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
-          <input
-            type="text"
-            placeholder="Suche nach Name oder Ort"
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-            style={{ flexGrow: 1, minWidth: '200px' }}
-          />
-          <select
-            value={teilverbandFilter}
-            onChange={e => setTeilverbandFilter(e.target.value)}
-            style={{ minWidth: '150px' }}
-          >
-            <option value="">Alle Teilverbände</option>
-            {teilverbandOptions.map(tv => (
-              <option key={tv} value={tv}>{tv}</option>
-            ))}
-          </select>
-        </div>
+
+        <input
+          type="text"
+          placeholder="Suche..."
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
+          style={{ marginBottom: '1rem', padding: '0.5rem', width: '100%' }}
+        />
+
+        <select
+          value={teilverbandFilter}
+          onChange={e => setTeilverbandFilter(e.target.value)}
+          style={{ marginBottom: '1rem', padding: '0.5rem', width: '100%' }}
+        >
+          <option value="">Alle Teilverbände</option>
+          <option value="OSV">OSV</option>
+          <option value="EOV">EOV</option>
+          <option value="BVS">BVS</option>
+          <option value="NOSV">NOSV</option>
+        </select>
+
+        {loading && <p>Lade Daten...</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
 
         <ul className="grid-list">
-          {filteredSchwinger.slice(0, visibleCount).map(s => (
-            <li key={s.id} style={{ border: '1px solid #ddd', borderRadius: '6px', padding: '1rem', display: 'flex', gap: '1rem', alignItems: 'center' }}>
-              {s.bild_url ? (
-                <img
-                  src={s.bild_url}
-                  alt={`${s.vorname} ${s.name}`}
-                  className="list-image"
-                  loading="lazy"
-                />
-              ) : (
-                <div
-                  className="list-image"
-                  style={{ backgroundColor: '#eee', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#999', fontSize: '0.8rem' }}
-                >
-                  Kein Bild
-                </div>
-              )}
-              <div>
-                <Link href={`/schwinger/${s.id}`}>
-                  <a style={{ fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--color-primary)' }}>
-                    {s.vorname} {s.name}
-                  </a>
+          {filteredSchwinger.slice(0, visibleCount).map(s => {
+            return (
+              <li key={s.id} className="grid-list-item">
+                <Link href={`/schwinger/${s.id}`} className="item-link">
+                  {s.bild_url ? (
+                    <Image
+                      src={s.bild_url}
+                      alt={`${s.vorname} ${s.name}`}
+                      width={100}
+                      height={100}
+                      style={{ objectFit: 'cover' }}
+                      className="item-image"
+                    />
+                  ) : (
+                    <div className="item-image placeholder">Kein Bild</div>
+                  )}
+                  <div className="item-text">
+                    <div><strong>{s.vorname} {s.name}</strong></div>
+                    <div>{s.wohnort}</div>
+                    <div>
+                      {/* Hier könntest du Bewertungen anzeigen, falls gewünscht */}
+                    </div>
+                  </div>
                 </Link>
-                <p>{s.tv}</p>
-                <p>{s.wohnort}</p>
-              </div>
-            </li>
-          ))}
+              </li>
+            )
+          })}
         </ul>
 
-        <div ref={loaderRef} style={{ height: '1px' }} />
-
-        {visibleCount < filteredSchwinger.length && (
-          <p style={{ textAlign: 'center', marginTop: '1rem' }}>Scroll nach unten zum Laden...</p>
-        )}
-
-        {filteredSchwinger.length === 0 && (
-          <p>Keine Schwinger gefunden.</p>
-        )}
-      </div>
+        <div ref={loaderRef} style={{ height: '1px' }}></div>
+      </main>
     </Layout>
   )
 }
