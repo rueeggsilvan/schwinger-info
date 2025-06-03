@@ -54,7 +54,7 @@ export default function Bewerten() {
         .eq('id', id)
         .single()
 
-      if (schwingerError && !SchwingerData) {
+      if (schwingerError && !schwingerData) {
         console.error('Fehler beim Laden des Schwingers:', schwingerError)
         alert('Schwinger konnte nicht geladen werden.')
       } else {
