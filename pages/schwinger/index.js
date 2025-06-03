@@ -71,12 +71,13 @@ export default function Home() {
 
   useEffect(() => {
     const filtered = schwinger
-      .filter(s => s.tv !== 'NOSV')
-      .filter(s => {
-        const matchesSearch = `${s.vorname} ${s.name} ${s.wohnort}`.toLowerCase().includes(searchTerm.toLowerCase())
-        const matchesTeilverband = teilverbandFilter === '' || s.tv === teilverbandFilter
-        return matchesSearch && matchesTeilverband
-      })
+    .filter(s => s.tv && s.tv !== 'NOSV') // NOSV und leere raus
+    .filter(s => {
+      const searchString = `${s.vorname} ${s.name} ${s.wohnort}`.toLowerCase()
+      const matchesSearch = searchString.includes(searchTerm.toLowerCase())
+      const matchesTeilverband = !teilverbandFilter || s.tv === teilverbandFilter
+      return matchesSearch && matchesTeilverband
+    })
     setFilteredSchwinger(filtered)
     setVisibleCount(10)
   }, [searchTerm, teilverbandFilter, schwinger])
