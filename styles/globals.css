@@ -92,7 +92,7 @@ body {
   flex: 1;
   padding: var(--spacing);
   margin: 0 auto;
-   with: 100%;
+   width: 100%;
    max-width: 1200px;
 }
 
