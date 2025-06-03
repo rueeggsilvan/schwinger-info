@@ -108,7 +108,7 @@ export default function Home() {
     <Layout>
       <main className="main-content">
         <h1>Schwingerliste</h1>
-/*
+
         <input
           type="text"
           placeholder="Suche..."
@@ -131,7 +131,7 @@ export default function Home() {
 
         {loading && <p>Lade Daten...</p>}
         {error && <p style={{ color: 'red' }}>{error}</p>}
-*/
+
         <ul className="grid-list">
           {filteredSchwinger.slice(0, visibleCount).map(s => {
             return (
