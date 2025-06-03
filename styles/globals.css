@@ -151,16 +151,16 @@ textarea {
   min-height: 120px;
 }
 
-/* Optional: Kleine, feste Breite bei Zahlen */
+/* Optionale kleine, feste Breite bei Zahlen */
 input[type="number"] {
-  width: 6rem; /* Du kannst den Wert bei Bedarf anpassen */
+  width: 6rem; /* anpassbar */
 }
 
 /* ================================
    Einheitliche Tabellen-Label-Spalte
 =================================== */
 td.label-cell {
-  width: 14rem; /* oder z.B. 10rem je nach Bedarf */
+  width: 14rem;
   white-space: nowrap;
   vertical-align: top;
   font-weight: 500;
@@ -215,4 +215,35 @@ td.label-cell {
     flex-direction: column;
     align-items: flex-start;
   }
+}
+
+/* ===============================
+   Grid-Layout für Schwinger-Liste
+================================= */
+.grid-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.grid-list > li {
+  margin: 0; /* margin in grid handled by gap */
+}
+
+/* 1-spaltig auf kleinen Bildschirmen */
+@media (max-width: 600px) {
+  .grid-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Bild in Liste */
+.list-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: var(--border-radius);
 }
