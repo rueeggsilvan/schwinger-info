@@ -111,7 +111,7 @@ export default function Home() {
 
         <input
           type="text"
-          placeholder="Suche..."
+          placeholder="Suche nach Vor-/Nachnahme, Wohnort, TV usw."
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
           style={{ marginBottom: '1rem', padding: '0.5rem', width: '100%' }}
@@ -126,7 +126,7 @@ export default function Home() {
           <option value="OSV">OSV</option>
           <option value="EOV">EOV</option>
           <option value="BVS">BVS</option>
-          <option value="NOSV">NOSV</option>
+          //<option value="NOSV">NOSV</option>
         </select>
 
         {loading && <p>Lade Daten...</p>}
