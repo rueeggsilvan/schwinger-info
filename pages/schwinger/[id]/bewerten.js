@@ -50,7 +50,7 @@ export default function Bewerten() {
       // Lade Schwinger
       const { data: schwingerData, error: schwingerError } = await supabase
         .from('schwinger')
-        .select('vorname, nachname, wohnort')
+        .select('vorname, name, wohnort')
         .eq('id', id)
         .single()
 
