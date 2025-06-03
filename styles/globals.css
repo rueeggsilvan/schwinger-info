@@ -92,6 +92,7 @@ body {
   flex: 1;
   padding: var(--spacing);
   margin: 0 auto;
+   max-width: 1200px;
 }
 
 /* ============================
