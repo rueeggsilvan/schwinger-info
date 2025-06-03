@@ -124,10 +124,10 @@ export default function Home() {
           style={{ marginBottom: '1rem', padding: '0.5rem', width: '100%' }}
         >
           <option value="">Alle Teilverbände</option>
-          <option value="OSV">OSV</option>
-          <option value="EOV">EOV</option>
-          <option value="BVS">BVS</option>
-          {/*<option value="NOSV">NOSV</option>*/}
+          <option value="ISV">ISV</option>
+          <option value="SWSV">SWSV</option>
+          <option value="BKSV">BKSV</option>
+          <option value="NWSV">NWSV</option>
         </select>
 
         {loading && <p>Lade Daten...</p>}
