@@ -104,6 +104,9 @@ export default function Home() {
     }
   }, [filteredSchwinger])
 
+  const ersteBewertung = s.bewertungen?.[0]
+  const bewertungUsername = ersteBewertung?.username
+    
   return (
     <Layout>
       <main className="main-content">
@@ -153,6 +156,11 @@ export default function Home() {
                   <div><strong>{s.vorname} {s.name}</strong></div>
                   <div>{s.wohnort}</div>
                   <div>{s.tv}</div>
+                  <div>
+                      {bewertungUsername
+                        ? `Bewertet von: ${bewertungUsername}`
+                        : 'Noch nicht bewertet'}More actions
+                  </div>
                 {/* Weitere Infos hier */}
                 </div>
               </Link>
