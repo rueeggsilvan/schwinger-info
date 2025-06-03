@@ -133,7 +133,13 @@ export default function Home() {
         </div>
 
         {filteredSchwinger.length === 0 && <p>Keine Schwinger gefunden.</p>}
-        <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
+        <ul style={{ 
+            listStyle: 'none',
+            paddingLeft: 0,
+            display: 'grid',
+            gap: '1rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))'
+        }}>
           {filteredSchwinger.slice(0, visibleCount).map((s) => {
             const ersteBewertung = s.bewertungen?.[0]
             const bewertungUsername = ersteBewertung?.username
