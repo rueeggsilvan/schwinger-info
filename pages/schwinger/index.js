@@ -134,9 +134,9 @@ export default function Home() {
         <ul className="grid-list">
           {filteredSchwinger.slice(0, visibleCount).map(s => (
             <li key={s.id} style={{ border: '1px solid #ddd', borderRadius: '6px', padding: '1rem', display: 'flex', gap: '1rem', alignItems: 'center' }}>
-              {s.bild ? (
+              {s.bild_url ? (
                 <img
-                  src={s.bild}
+                  src={s.bild_url}
                   alt={`${s.vorname} ${s.name}`}
                   className="list-image"
                   loading="lazy"
