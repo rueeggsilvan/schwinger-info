@@ -127,13 +127,13 @@ export default function SchwingerDetail() {
         <div style={{ marginTop: '3rem', borderTop: '1px solid #ccc', paddingTop: '1rem' }}>
           <h2>PDF-Porträt</h2>
           <p style={{ fontSize: '0.9rem', color: '#666' }}>
-            Klicke auf die Vorschau oder den Button, um das vollständige Profil als PDF zu öffnen.
+            Klicke auf die Vorschau, um das vollständige Profil als PDF zu öffnen.
           </p>
 
           <a href={schwinger.link_pdf} target="_blank" rel="noopener noreferrer">
             <iframe
               src={schwinger.link_pdf}
-              style={{ width: '100%', height: '600px', border: '1px solid #ccc', marginTop: '1rem' }}
+              style={{ width: '100%', height: '1000px', border: '1px solid #ccc', marginTop: '1rem' }}
             />
           </a>
         </div>
