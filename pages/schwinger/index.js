@@ -112,7 +112,7 @@ export default function Home() {
 
         <input
           type="text"
-          placeholder="Suche nach Vor-/Nachnahme, Wohnort, TV usw."
+          placeholder="Suche nach Vorname/Nachnahme/Wohnort"
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
           style={{ marginBottom: '1rem', padding: '0.5rem', width: '100%' }}
