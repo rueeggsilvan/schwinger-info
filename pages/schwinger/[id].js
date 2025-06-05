@@ -96,20 +96,6 @@ export default function SchwingerDetail() {
           <p>Kein Bild verfügbar</p>
         )}
 
-        <table style={{ marginTop: '1rem', borderCollapse: 'collapse', width: '100%' }}>
-          <tbody>
-            <tr><td><strong>Geburtsdatum:</strong></td><td>{schwinger.geburtsdatum || '–'}</td></tr>
-            <tr><td><strong>Sternzeichen:</strong></td><td>{schwinger.sternzeichen || '–'}</td></tr>
-            <tr><td><strong>Zivilstand:</strong></td><td>{schwinger.zivilstand || '–'}</td></tr>
-            <tr><td><strong>Größe:</strong></td><td>{schwinger.groesse || '–'}</td></tr>
-            <tr><td><strong>Gewicht:</strong></td><td>{schwinger.gewicht || '–'}</td></tr>
-            <tr><td><strong>Hobbys:</strong></td><td>{schwinger.hobbys || '–'}</td></tr>
-            <tr><td><strong>Erlernter Beruf:</strong></td><td>{schwinger.erlernter_beruf || '–'}</td></tr>
-            <tr><td><strong>Jetziger Beruf:</strong></td><td>{schwinger.jetziger_beruf || '–'}</td></tr>
-            <tr><td><strong>Besonderes:</strong></td><td>{schwinger.besonderes || '–'}</td></tr>
-          </tbody>
-        </table>
-
         <div style={{ marginTop: '1rem' }}>
           <h2>Bewertungen</h2>
           {bewertungen.length === 0 ? (
@@ -150,6 +136,21 @@ export default function SchwingerDetail() {
             <button>Zurück zur Liste</button>
           </Link>
         </div>
+          {schwinger.link_pdf && (
+          <div style={{ marginTop: '3rem', borderTop: '1px solid #ccc', paddingTop: '1rem' }}>
+            <h2>PDF-Porträt</h2>
+            <p style={{ fontSize: '0.9rem', color: '#666' }}>
+              Klicke auf die Vorschau oder den Button, um das vollständige Profil als PDF zu öffnen.
+            </p>
+
+            <a href={schwinger.link_pdf} target="_blank" rel="noopener noreferrer">
+              <iframe
+                src={schwinger.link_pdf}
+                style={{ width: '100%', height: '600px', border: '1px solid #ccc', marginTop: '1rem' }}
+              />
+            </a>
+          </div>
+        )}
       </div>
     </Layout>
   )
