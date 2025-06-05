@@ -124,7 +124,7 @@ export default function SchwingerDetail() {
         </div>
 
         {schwinger.link_pdf ? (
-        <div style={{ marginTop: '3rem', borderTop: '1px solid #ccc', paddingTop: '1rem' }}>
+        <div style={{ position: 'relative', paddingTop: '56.25%', width: '100%' }}>
           <h2>PDF-Porträt</h2>
           <p style={{ fontSize: '0.9rem', color: '#666' }}>
             Klicke auf die Vorschau, um das vollständige Profil als PDF zu öffnen.
@@ -133,7 +133,7 @@ export default function SchwingerDetail() {
           <a href={schwinger.link_pdf} target="_blank" rel="noopener noreferrer">
             <iframe
               src={schwinger.link_pdf}
-              style={{ width: '100%', height: '100%', border: '1px solid #ccc', marginTop: '1rem' }}
+              style={{ top: '0', left: '0', position: 'absolute', width: '100%', height: '100%', border: '1px solid #ccc', marginTop: '1rem' }}
             />
           </a>
         </div>
