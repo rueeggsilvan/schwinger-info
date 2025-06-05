@@ -117,25 +117,13 @@ export default function SchwingerDetail() {
           </Link>
         </div>
         
-        {schwinger.link_pdf ? (
-          <div style={{ marginTop: '1rem' }}>
-            <a href={schwinger.link_pdf} target="_blank" rel="noopener noreferrer">
-              <button>PDF-Porträt öffnen</button>
-            </a>
-          </div>
-        ) : (
-          <div style={{ marginTop: '1rem' }}>
-            <button disabled style={{ opacity: 0.5, cursor: 'not-allowed' }}>
-              Kein PDF verfügbar
-            </button>
-          </div>
-        )}
-
         <div style={{ marginTop: '1rem' }}>
           <Link href="/schwinger">
             <button>Zurück zur Liste</button>
           </Link>
         </div>
+
+        {schwinger.link_pdf ? (
           {schwinger.link_pdf && (
           <div style={{ marginTop: '3rem', borderTop: '1px solid #ccc', paddingTop: '1rem' }}>
             <h2>PDF-Porträt</h2>
@@ -150,6 +138,11 @@ export default function SchwingerDetail() {
               />
             </a>
           </div>
+          )}
+        ) : (
+          <p style={{ fontSize: '0.9rem', color: '#666' }}>
+              Kein PDF verfügbar.
+          </p>
         )}
       </div>
     </Layout>
