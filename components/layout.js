@@ -54,7 +54,7 @@ export default function Layout({ children }) {
     <div className="layout">
       <header className="header">
         <div className="logo">
-          <Link href="/">
+          <Link href="https://nosv.esv.ch/home/">
             <Image src="/logo.png" alt="Zur Schwingerliste" width={150} height={50} />
           </Link>
         </div>
