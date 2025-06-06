@@ -10,13 +10,11 @@ export default function Login() {
   const router = useRouter();
   const { next } = router.query; // z.B. /schwinger/5
 
-  /*
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setCurrentPath(window.location.pathname + window.location.search);
     }
   }, []);
-  */
 
   const handleLogin = async (e) => {
     e.preventDefault();
