@@ -12,6 +12,7 @@ export default function Bewerten() {
   const [loading, setLoading] = useState(true)
   const router = useRouter()
   const { id } = router.query
+  const currentPath = router.asPath;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -111,7 +112,7 @@ export default function Bewerten() {
       <Layout>
         <div>
           <p>Nur eingeloggte Benutzer dürfen bewerten.</p>
-          <Link href="/login">Zum Login</Link>
+          <Link href={`/login?next=${encodeURIComponent(currentPath)}`}>Zum Login</Link>
         </div>
       </Layout>
     )
