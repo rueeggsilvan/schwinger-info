@@ -67,12 +67,38 @@ export default function Profil() {
     setLoading(false);
   }
 
+  const [passwort, setPasswort] = useState('');
+
+  async function passwortAendern(e) {
+    e.preventDefault();
+    const { error } = await supabase.auth.updateUser({ password: passwort });
+    if (error) {
+      setMessage('Fehler beim Passwort-Ändern.');
+    } else {
+      setMessage('Passwort erfolgreich geändert.');
+    }
+  }
+
   if (loading) return <Layout><p>Lädt...</p></Layout>;
 
   return (
     <Layout>
       <h1>Profil bearbeiten</h1>
       {message && <p>{message}</p>}
+      <form onSubmit={passwortAendern}>
+        <label>
+          Neues Passwort:
+          <input
+            type="password"
+            value={passwort}
+            onChange={(e) => setPasswort(e.target.value)}
+            required
+            minLength={6}
+          />
+        </label>
+        <br />
+        <button type="submit">Passwort ändern</button>
+      </form>
       <form onSubmit={updateUsername}>
         <label>
           Benutzername:

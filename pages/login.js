@@ -14,33 +14,44 @@ export default function Login() {
   }, [])
 
   const handleLogin = async (e) => {
-    e.preventDefault()
-    const { error } = await supabase.auth.signInWithOtp({ 
-      email,
-      options: {
-        emailRedirectTo: `https://schwinger-info.vercel.app/auth-callback?next=${encodeURIComponent(currentPath)}`
-      }
-    })
+    e.preventDefault();
+
+    const emailTrimmed = email.trim().toLowerCase();
+    const password = 'DEIN_PASSWORT'; // z. B. "geheim123"
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: emailTrimmed,
+      password,
+    });
+
     if (error) {
-      setMessage('Eingegebene E-Mail nicht in der Userdatenbank vorhanden. Kontrolliere deine Eingabe, sollte das Problem weiterhin bestehen, kontaktiere einen Administrator.')
+      console.error(error);
+      setMessage('Login fehlgeschlagen. Kontrolliere E-Mail oder Passwort.');
     } else {
-      setMessage('Check deine E-Mail – Link wurde gesendet.')
+      setMessage('Login erfolgreich!');
+      // Weiterleiten oder auth-callback aufrufen
+      window.location.href = '/profil'; // oder dein Redirect
     }
-  }
+  };
 
   return (
     <Layout>
       <div>
         <h1>Login</h1>
         <form onSubmit={handleLogin}>
-          <input
-            type="email"
-            placeholder="E-Mail"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <button type="submit">Magic Link senden</button>
+        <input
+          type="email"
+          placeholder="E-Mail"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Passwort"
+          required
+        />
+        <button type="submit">Login</button>
         </form>
         {message && <p>{message}</p>}
       </div>
