@@ -2,6 +2,7 @@ import { supabase } from '../lib/supabaseClient';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router'
 
 export default function Layout({ children }) {
   const [session, setSession] = useState(null);
@@ -53,6 +54,8 @@ export default function Layout({ children }) {
   return (
     <div className="layout">
       <header className="header">
+        const router = useRouter();
+        const currentPath = router.asPath;
         <div className="logo">
           <Link href="https://nosv.esv.ch/home/">
             <Image src="/logo.png" alt="Zur Schwingerliste" width={150} height={50} />
@@ -95,13 +98,16 @@ export default function Layout({ children }) {
               </button>
             </>
           ) : (
-            <Link href="/login" className="nav-link" onClick={() => setMenuOpen(false)}>
+            <Link
+              href={`/login?next=${encodeURIComponent(currentPath)}`}
+              className="nav-link"
+              onClick={() => setMenuOpen(false)}
+            >
               Login
             </Link>
           )}
         </nav>
       </header>
-
       <main className="main-content">{children}</main>
     </div>
   );
