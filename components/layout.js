@@ -8,6 +8,8 @@ export default function Layout({ children }) {
   const [session, setSession] = useState(null);
   const [profile, setProfile] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const router = useRouter();
+  const currentPath = router.asPath;
 
   useEffect(() => {
     const getSessionAndProfile = async () => {
@@ -54,8 +56,6 @@ export default function Layout({ children }) {
   return (
     <div className="layout">
       <header className="header">
-        const router = useRouter();
-        const currentPath = router.asPath;
         <div className="logo">
           <Link href="https://nosv.esv.ch/home/">
             <Image src="/logo.png" alt="Zur Schwingerliste" width={150} height={50} />
