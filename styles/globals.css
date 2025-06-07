@@ -129,6 +129,7 @@ a:hover {
   Gemeinsame Basis-Styles für alle Eingabefelder 
 ================================ */
 input[type="text"],
+input[type="password"]
 input[type="number"],
 textarea {
   padding: 0.75rem;

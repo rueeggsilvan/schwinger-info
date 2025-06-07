@@ -89,7 +89,7 @@ export default function Profil() {
         <label>
           Neues Passwort:
           <input
-            type="text"
+            type="password"
             value={passwort}
             onChange={(e) => setPasswort(e.target.value)}
             required
