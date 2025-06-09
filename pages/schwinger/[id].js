@@ -141,7 +141,7 @@ export default function SchwingerDetail() {
         {schwinger.link_pdf ? (
         <div style={{ width: '100%' }}>
           <h2>PDF-Porträt</h2>
-          <p style={{ fontSize: '0.9rem', color: '#666' }}>
+          <p style={{ fontSize: '0.9rem', color: 'var(--color-text)' }}>
             Klicke auf die Vorschau, um das vollständige Profil als PDF zu öffnen.
           </p>
 
@@ -153,7 +153,7 @@ export default function SchwingerDetail() {
           </a>
         </div>
       ) : (
-        <p style={{ fontSize: '0.9rem', color: '#666' }}>
+        <p style={{ fontSize: '0.9rem', color: 'var(--color-text)' }}>
           Kein PDF verfügbar.
         </p>
       )}
