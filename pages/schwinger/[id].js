@@ -46,7 +46,7 @@ export default function SchwingerDetail() {
       // 2. User IDs aus Bewertungen sammeln (erstellt/aktualisiert)
       const userIds = Array.from(
         new Set(
-          (data.bewertungen || []).reduce((acc, b) => {
+          [].concat(data.bewertungen || []).reduce((acc, b) => {
             if (b.created_by) acc.push(b.created_by)
             if (b.updated_by) acc.push(b.updated_by)
             return acc
@@ -73,7 +73,7 @@ export default function SchwingerDetail() {
       })
 
       // 5. Profile in Bewertungen einfügen
-      const bewertungenWithUsernames = (data.bewertungen || []).map(b => ({
+      const bewertungenWithUsernames = [].concat(data.bewertungen || []).map(b => ({
         ...b,
         created_username: profilesMap[b.created_by] || null,
         updated_username: profilesMap[b.updated_by] || null
