@@ -35,17 +35,17 @@ export default function Home() {
         return
       }
 
-        const userIds = Array.from(
-          new Set(
-            data.reduce((acc, s) => {
-              (s.bewertungen || []).forEach(b => {
-                if (b.created_by) acc.push(b.created_by)
-                if (b.updated_by) acc.push(b.updated_by)
-              })
-              return acc
-            }, [])
-          )
-        ).filter(Boolean)
+          const userIds = Array.from(
+            new Set(
+              data.reduce((acc, s) => {
+                ;[].concat(s.bewertungen || []).forEach(b => {
+                  if (b.created_by) acc.push(b.created_by)
+                  if (b.updated_by) acc.push(b.updated_by)
+                })
+                return acc
+              }, [])
+            )
+          ).filter(Boolean)
 
       const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
@@ -65,7 +65,7 @@ export default function Home() {
       })
 
         const dataWithProfiles = data.map(s => {
-          const bewertungenWithUsernames = (s.bewertungen || []).map(b => ({
+          const bewertungenWithUsernames = [].concat(s.bewertungen || []).map(b => ({
             ...b,
             created_username: profilesMap[b.created_by] || null,
             updated_username: profilesMap[b.updated_by] || null,
