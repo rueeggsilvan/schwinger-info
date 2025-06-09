@@ -22,7 +22,8 @@ export default function Home() {
         .select(`
           *,
           bewertungen (
-            user_id
+            created_by,
+            updated_by
           )
         `)
         .order('name', { ascending: true })
@@ -34,7 +35,11 @@ export default function Home() {
         return
       }
 
-      const userIds = [...new Set(data.flatMap(s => s.bewertungen.map(b => b.user_id)))].filter(Boolean)
+      const userIds = [...new Set(
+        data.flatMap(s =>
+          s.bewertungen.flatMap(b => [b.created_by, b.updated_by])
+        )
+      )].filter(Boolean)
 
       const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
@@ -56,7 +61,8 @@ export default function Home() {
       const dataWithProfiles = data.map(s => {
         const bewertungenWithUsernames = s.bewertungen.map(b => ({
           ...b,
-          username: profilesMap[b.user_id] || null
+          created_username: profilesMap[b.created_by] || null,
+          updated_username: profilesMap[b.updated_by] || null,
         }))
         return { ...s, bewertungen: bewertungenWithUsernames }
       })
@@ -136,7 +142,7 @@ export default function Home() {
         <ul className="grid-list">
           {filteredSchwinger.slice(0, visibleCount).map(s => {
             const ersteBewertung = s.bewertungen?.[0]
-            const bewertungUsername = ersteBewertung?.username
+            const bewertungUsername = ersteBewertung?.created_username
             return (
               <li key={s.id} className="grid-list-item">
               <Link href={`/schwinger/${s.id}`} className="item-link">
@@ -156,7 +162,7 @@ export default function Home() {
                   <div><strong>{s.vorname} {s.name}</strong></div>
                   <div>{s.wohnort}</div>
                   <div>{s.tv}</div>
-                  <div>{bewertungUsername? `Bewertet von: ${bewertungUsername}`: 'Noch nicht bewertet'}</div>
+                  <div>{bewertungUsername ? `Bewertet von: ${bewertungUsername}` : 'Noch nicht bewertet'}</div>
                 {/* Weitere Infos hier */}
                 </div>
               </Link>
