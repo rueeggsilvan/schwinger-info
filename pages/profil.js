@@ -81,6 +81,14 @@ export default function Profil() {
 
   if (loading) return <Layout><p>Lädt...</p></Layout>;
 
+  if (!profile) {
+    return (
+      <Layout>
+        <p>{message || 'Bitte erst einloggen.'}</p>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <h1>Profil bearbeiten</h1>
