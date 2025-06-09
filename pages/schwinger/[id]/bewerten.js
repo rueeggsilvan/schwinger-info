@@ -10,6 +10,7 @@ export default function Bewerten() {
   const [formData, setFormData] = useState({})
   const [schwinger, setSchwinger] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [bewertungExists, setBewertungExists] = useState(false)
   const router = useRouter()
   const { id } = router.query
   const currentPath = router.asPath;
@@ -62,6 +63,20 @@ export default function Bewerten() {
         setSchwinger(schwingerData)
       }
 
+      // Bestehende Bewertung laden
+      const { data: existingBewertung, error: bewertungError } = await supabase
+        .from('bewertungen')
+        .select('*')
+        .eq('schwinger_id', id)
+        .maybeSingle()
+
+      if (bewertungError) {
+        console.error('Fehler beim Laden der Bewertung:', bewertungError)
+      } else if (existingBewertung) {
+        setFormData(prev => ({ ...prev, ...existingBewertung }))
+        setBewertungExists(true)
+      }
+
       setLoading(false)
     }
 
@@ -88,7 +103,13 @@ export default function Bewerten() {
       user_id: user.id,
     }
 
-    const { error } = await supabase.from('bewertungen').insert(payload)
+    if (bewertungExists) {
+      payload.updated_by = user.id
+    }
+
+    const { error } = await supabase
+      .from('bewertungen')
+      .upsert(payload, { onConflict: 'schwinger_id' })
 
     if (error) {
       console.error('Fehler beim Speichern der Bewertung:', error)
@@ -197,7 +218,7 @@ export default function Bewerten() {
             </div>
           ))}
           <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-            Bewerten
+            {bewertungExists ? 'Änderungen speichern' : 'Bewertung speichern'}
           </button>
         </form>
       </div>
