@@ -35,11 +35,17 @@ export default function Home() {
         return
       }
 
-        const userIds = [...new Set(
-          data.flatMap(s =>
-            (s.bewertungen?.flatMap(b => [b.created_by, b.updated_by]) || [])
+        const userIds = Array.from(
+          new Set(
+            data.reduce((acc, s) => {
+              (s.bewertungen || []).forEach(b => {
+                if (b.created_by) acc.push(b.created_by)
+                if (b.updated_by) acc.push(b.updated_by)
+              })
+              return acc
+            }, [])
           )
-        )].filter(Boolean)
+        ).filter(Boolean)
 
       const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
