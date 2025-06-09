@@ -7,9 +7,7 @@ export default function Home() {
       <h1>Willkommen! 🎉</h1>
       <p>Nutze die Schwingerliste um einen Schwinger auszuwählen, sein Profil anzusehen und ihn zu bewerten.</p>
       <Link href="/schwinger">
-        <button style={{ padding: '10px 20px', backgroundColor: '#0070f3', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
-          Zur Schwingerliste
-        </button>
+        <button>Zur Schwingerliste</button>
       </Link>
     </Layout>
   );

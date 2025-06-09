@@ -73,7 +73,11 @@ export default function Bewerten() {
       if (bewertungError) {
         console.error('Fehler beim Laden der Bewertung:', bewertungError)
       } else if (existingBewertung) {
-        setFormData(prev => ({ ...prev, ...existingBewertung }))
+        setFormData(prev => ({
+          ...prev,
+          ...existingBewertung,
+          bewerter_name: profile.username,
+        }))
         setBewertungExists(true)
       }
 
@@ -147,7 +151,7 @@ export default function Bewerten() {
             {schwinger.name} {schwinger.vorname} ({schwinger.wohnort})
           </h1>
         )}
-        <p className="text-sm mb-4 text-gray-700">
+        <p className="info-text">
           Bitte bewerte mit Zahlen von 1 (schwach) bis 5 (sehr stark).
         </p>
 
@@ -193,7 +197,14 @@ export default function Bewerten() {
                       <tr key={index} className="border-b">
                         <td className="label-cell px-2 py-2">{feld.label}</td>
                         <td className="px-2 py-2">
-                          {feld.type === 'text' ? (
+                          {feld.name === 'bewerter_name' ? (
+                            <input
+                              type="text"
+                              value={formData[feld.name] || ''}
+                              readOnly
+                              className="border rounded px-2 py-1 w-full"
+                            />
+                          ) : feld.type === 'text' ? (
                             <textarea
                               value={formData[feld.name] || ''}
                               onChange={(e) => handleChange(feld.name, e.target.value)}
@@ -217,7 +228,7 @@ export default function Bewerten() {
               )}
             </div>
           ))}
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+          <button type="submit">
             {bewertungExists ? 'Änderungen speichern' : 'Bewertung speichern'}
           </button>
         </form>
