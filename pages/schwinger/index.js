@@ -35,11 +35,11 @@ export default function Home() {
         return
       }
 
-      const userIds = [...new Set(
-        data.flatMap(s =>
-          s.bewertungen.flatMap(b => [b.created_by, b.updated_by])
-        )
-      )].filter(Boolean)
+        const userIds = [...new Set(
+          data.flatMap(s =>
+            (s.bewertungen?.flatMap(b => [b.created_by, b.updated_by]) || [])
+          )
+        )].filter(Boolean)
 
       const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
@@ -58,14 +58,14 @@ export default function Home() {
         profilesMap[p.id] = p.username
       })
 
-      const dataWithProfiles = data.map(s => {
-        const bewertungenWithUsernames = s.bewertungen.map(b => ({
-          ...b,
-          created_username: profilesMap[b.created_by] || null,
-          updated_username: profilesMap[b.updated_by] || null,
-        }))
-        return { ...s, bewertungen: bewertungenWithUsernames }
-      })
+        const dataWithProfiles = data.map(s => {
+          const bewertungenWithUsernames = (s.bewertungen || []).map(b => ({
+            ...b,
+            created_username: profilesMap[b.created_by] || null,
+            updated_username: profilesMap[b.updated_by] || null,
+          }))
+          return { ...s, bewertungen: bewertungenWithUsernames }
+        })
 
       setSchwinger(dataWithProfiles)
       setFilteredSchwinger(dataWithProfiles)
