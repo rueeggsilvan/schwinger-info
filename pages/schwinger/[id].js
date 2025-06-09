@@ -44,9 +44,15 @@ export default function SchwingerDetail() {
       }
 
       // 2. User IDs aus Bewertungen sammeln (erstellt/aktualisiert)
-      const userIds = [...new Set(
-        (data.bewertungen || []).flatMap(b => [b.created_by, b.updated_by])
-      )].filter(Boolean)
+      const userIds = Array.from(
+        new Set(
+          (data.bewertungen || []).reduce((acc, b) => {
+            if (b.created_by) acc.push(b.created_by)
+            if (b.updated_by) acc.push(b.updated_by)
+            return acc
+          }, [])
+        )
+      ).filter(Boolean)
 
       // 3. Profile laden
       const { data: profilesData, error: profilesError } = await supabase
