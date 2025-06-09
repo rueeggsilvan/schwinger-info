@@ -9,7 +9,7 @@ ALTER TABLE public.bewertungen
 
 -- Add unique constraint on schwinger_id
 ALTER TABLE public.bewertungen
-  ADD CONSTRAINT IF NOT EXISTS bewertungen_schwinger_id_unique UNIQUE (schwinger_id);
+  ADD CONSTRAINT bewertungen_schwinger_id_unique UNIQUE (schwinger_id);
 
 -- Trigger function to set updated_at and updated_by on update
 CREATE OR REPLACE FUNCTION public.set_bewertungen_update_audit()
@@ -31,5 +31,5 @@ FOR EACH ROW EXECUTE PROCEDURE public.set_bewertungen_update_audit();
 ALTER TABLE public.bewertungen ENABLE ROW LEVEL SECURITY;
 
 -- Allow authenticated users to update their own rows
-CREATE POLICY IF NOT EXISTS "Authenticated users can update bewertungen" ON public.bewertungen
+CREATE POLICY "Authenticated users can update bewertungen" ON public.bewertungen
 FOR UPDATE USING (auth.role() = 'authenticated');
