@@ -28,7 +28,10 @@ export default function SchwingerDetail() {
           bewertungen (
             id,
             kommentar,
-            user_id
+            created_by,
+            updated_by,
+            created_at,
+            updated_at
           )
         `)
         .eq('id', id)
@@ -40,8 +43,10 @@ export default function SchwingerDetail() {
         return
       }
 
-      // 2. User IDs aus Bewertungen sammeln
-      const userIds = [...new Set(data.bewertungen.map(b => b.user_id))].filter(Boolean)
+      // 2. User IDs aus Bewertungen sammeln (erstellt/aktualisiert)
+      const userIds = [...new Set(
+        data.bewertungen.flatMap(b => [b.created_by, b.updated_by])
+      )].filter(Boolean)
 
       // 3. Profile laden
       const { data: profilesData, error: profilesError } = await supabase
@@ -64,7 +69,8 @@ export default function SchwingerDetail() {
       // 5. Profile in Bewertungen einfügen
       const bewertungenWithUsernames = data.bewertungen.map(b => ({
         ...b,
-        username: profilesMap[b.user_id] || null
+        created_username: profilesMap[b.created_by] || null,
+        updated_username: profilesMap[b.updated_by] || null
       }))
 
       setSchwinger(data)
@@ -104,7 +110,10 @@ export default function SchwingerDetail() {
             <ul>
               {bewertungen.map(b => (
                 <li key={b.id}>
-                  <strong>{b.username || 'Unbekannter Nutzer'}</strong>: {b.kommentar || 'Keine Bewertungstexte'}
+                  <div>
+                    Bewertung von {b.created_username || 'Unbekannt'}, zuletzt geändert von {b.updated_username || 'Unbekannt'}
+                  </div>
+                  <div>{b.kommentar || 'Keine Bewertungstexte'}</div>
                 </li>
               ))}
             </ul>
