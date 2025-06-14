@@ -117,7 +117,7 @@ export default function SchwingerDetail() {
               {bewertungen.map(b => (
                 <li key={b.id}>
                   <div>
-                    Bewertung von {b.created_username || 'Unbekannt'} \n zuletzt geändert von {b.updated_username || 'Unbekannt'}
+                    Bewertung von {b.created_username || 'Unbekannt'} /n zuletzt geändert von {b.updated_username || 'Unbekannt'}
                   </div>
                   <div>{b.kommentar || 'Keine Bewertungstexte'}</div>
                 </li>
