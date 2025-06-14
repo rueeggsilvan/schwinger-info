@@ -140,15 +140,11 @@ export default function SchwingerDetail() {
 
         {schwinger.link_pdf ? (
         <div style={{ width: '100%' }}>
-          <h2>PDF-Porträt</h2>
-          <p style={{ fontSize: '0.9rem', color: 'var(--color-text)' }}>
-            Klicke auf die Vorschau, um das vollständige Profil als PDF zu öffnen.
-          </p>
 
           <a href={schwinger.link_pdf} target="_blank" rel="noopener noreferrer">
             <iframe
               src={schwinger.link_pdf}
-              style={{ width: '100%', height: '1000px', border: '1px solid #ccc', marginTop: '1rem' }}
+              style={{ width: '100%', height: '800px', border: '1px solid #ccc', marginTop: '1rem' }}
             />
           </a>
         </div>
