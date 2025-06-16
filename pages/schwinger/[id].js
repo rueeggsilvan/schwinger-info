@@ -123,7 +123,7 @@ export default function SchwingerDetail() {
                 <li key={b.id}>
                   <div>Bewertung erstellt von:  <strong>{b.created_username || '-'}</strong>.</div>
                   <div>Zuletzt geändert von:    <strong>{b.updated_username || '-'}</strong>.</div>
-                  <div>Kommentar: {b.kommentar || 'Keine Bewertungstexte'}</div>
+                  <div>Kommentar: {b.kommentar || '-'}</div>
                 </li>
               ))}
             </ul>
