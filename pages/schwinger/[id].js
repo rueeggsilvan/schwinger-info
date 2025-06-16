@@ -121,8 +121,8 @@ export default function SchwingerDetail() {
             <ul className='noPoints'>
               {bewertungen.map(b => (
                 <li key={b.id}>
-                  <div>Bewertung erstellt von {b.created_username || 'Unbekannt'}.</div>
-                  <div>Zuletzt geändert von {b.updated_username || 'Unbekannt'}.</div>
+                  <div>Bewertung erstellt von:  <strong>{b.created_username || 'Unbekannt'}</strong>.</div>
+                  <div>Zuletzt geändert von:    <strong>{b.updated_username || 'Unbekannt'}</strong>.</div>
                   <div>Kommentar: {b.kommentar || 'Keine Bewertungstexte'}</div>
                 </li>
               ))}
