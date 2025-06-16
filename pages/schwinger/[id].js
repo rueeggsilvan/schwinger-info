@@ -98,7 +98,7 @@ export default function SchwingerDetail() {
 
   return (
     <Layout>
-      <div style={{ padding: '2rem' }}>
+      <div className="responsive-padding">
         <h1>{schwinger.vorname} {schwinger.name} ({schwinger.wohnort})</h1>
 
         {schwinger.bild_url ? (
@@ -121,8 +121,8 @@ export default function SchwingerDetail() {
             <ul className='noPoints'>
               {bewertungen.map(b => (
                 <li key={b.id}>
-                  <div>Bewertung erstellt von:  <strong>{b.created_username || '-'}</strong>.</div>
-                  <div>Zuletzt geändert von:    <strong>{b.updated_username || '-'}</strong>.</div>
+                  <div>Bewertung erstellt von:  <strong>{b.created_username || '-'}</strong></div>
+                  <div>Zuletzt geändert von:    <strong>{b.updated_username || '-'}</strong></div>
                   <div>Kommentar: {b.kommentar || '-'}</div>
                 </li>
               ))}
@@ -154,7 +154,7 @@ export default function SchwingerDetail() {
           <a href={schwinger.link_pdf} target="_blank" rel="noopener noreferrer">
             <iframe
               src={schwinger.link_pdf}
-              style={{ width: '100%', height: '800px', border: '1px solid #ccc', marginTop: '1rem' }}
+              style={{ width: '100%', height: '500px', border: '1px solid #ccc', marginTop: '1rem' }}
             />
           </a>
         </div>

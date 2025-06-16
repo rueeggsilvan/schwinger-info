@@ -145,7 +145,7 @@ export default function Bewerten() {
 
   return (
     <Layout>
-      <div className="max-w-3xl mx-auto p-4">
+      <div className="seite-bewerten w-auto mx-auto p-4">
         {schwinger && (
           <h1 className="text-2xl font-bold mb-2">
             {schwinger.name} {schwinger.vorname} ({schwinger.wohnort})
@@ -161,7 +161,8 @@ export default function Bewerten() {
               <h2 className="text-xl font-semibold mb-2">{gruppe.gruppe}</h2>
 
               {gruppe.matrix ? (
-                <table className="table-auto w-full border">
+                <div className="table-wrapper">
+                <table className="table-auto w-auto border">
                   <thead>
                     <tr>
                       <th className="border px-2 py-1 text-left">Eigenschaft</th>
@@ -173,9 +174,9 @@ export default function Bewerten() {
                   <tbody>
                     {gruppe.felder.map((feld, index) => (
                       <tr key={index}>
-                        <td className="label-cell px-2 py-2">{feld.label}</td>
+                        <td className='max-w-4x1'>{feld.label}</td>
                         {feld.names.map((name, idx) => (
-                          <td key={idx} className="border px-2 py-1 w-[200px]">
+                          <td key={idx}>
                           <div className="slider-container">
                           <input
                             type="range"
@@ -198,25 +199,28 @@ export default function Bewerten() {
                     ))}
                   </tbody>
                 </table>
+                </div>
+
               ) : (
-                <table className="table-auto w-full">
+                <div className="table-wrapper">
+                <table className="table-auto w-auto">
                   <tbody>
                     {gruppe.felder.map((feld, index) => (
                       <tr key={index} className="border-b">
-                        <td className="label-cell px-2 py-2">{feld.label}</td>
+                        <td className="label-cell px-2 py-2 w-auto">{feld.label}</td>
                         <td className="px-2 py-2">
                           {feld.name === 'bewerter_name' ? (
                             <input
                               type="text"
                               value={formData[feld.name] || ''}
                               readOnly
-                              className="border rounded px-2 py-1 w-full"
+                              className="border rounded px-2 py-1 w-auto"
                             />
                           ) : feld.type === 'text' ? (
                             <textarea
                               value={formData[feld.name] || ''}
                               onChange={(e) => handleChange(feld.name, e.target.value)}
-                              className="border rounded px-2 py-1 w-full"
+                              className="border rounded px-2 py-1 w-auto"
                             />
                           ) : (
                             <><input
@@ -238,6 +242,7 @@ export default function Bewerten() {
                     ))}
                   </tbody>
                 </table>
+                </div>
               )}
             </div>
           ))}

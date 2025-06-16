@@ -1,6 +1,6 @@
-/* ============================
-   Globale Variablen (Light Theme)
-=============================== */
+/* ====================================================
+   Globale Design-Variablen (Light Theme)
+==================================================== */
 :root {
   --color-background: #ffffff;
   --color-text: #222222;
@@ -14,26 +14,24 @@
   --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* ============================
-   Dark Theme (wenn System Dark Mode nutzt)
-=============================== */
 @media (prefers-color-scheme: dark) {
   :root {
     --color-background: #121212;
     --color-text: #e0e0e0;
-    --color-primary: #cf505a;
-    --color-secondary: #3945e6;
     --color-button-text: #121212;
-    --color-button-bg: var(--color-primary);
     --color-input-readonly-bg: #333333;
   }
 }
 
-/* ============================
+/* ====================================================
    Global Reset & Grundlayout
-=============================== */
+==================================================== */
 * {
   box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
 }
 
 body {
@@ -43,17 +41,35 @@ body {
   color: var(--color-text);
   font-family: var(--font-family);
   line-height: 1.6;
+  padding-left: var(--spacing);
+  padding-right: var(--spacing);
 }
 
-/* ============================
-   Layout-Klassen
-=============================== */
+/* ====================================================
+   Layout
+==================================================== */
 .layout {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
+.main-content {
+  flex: 1;
+  padding: var(--spacing);
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.responsive-padding {
+  padding: 2rem;
+}
+
+
+/* ====================================================
+   Header & Navigation
+==================================================== */
 .header {
   background-color: var(--color-primary);
   color: var(--color-button-text);
@@ -61,20 +77,18 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .logo img {
   display: block;
 }
 
-.noPoints {
-  list-style:none;
-}
-
 .nav {
   display: flex;
   gap: 1.5rem;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .nav-link {
@@ -90,21 +104,22 @@ body {
 }
 
 .nav-user {
-  color: var(--color-button-text);
   font-size: 0.9rem;
+  color: var(--color-button-text);
 }
 
-.main-content {
-  flex: 1;
-  padding: var(--spacing);
-  margin: 0 auto;
-   width: 100%;
-   max-width: 1200px;
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--color-button-text);
+  cursor: pointer;
 }
 
-/* ============================
-   Buttons (optional global)
-=============================== */
+/* ====================================================
+   Buttons
+==================================================== */
 button {
   background-color: var(--color-button-bg);
   color: var(--color-button-text);
@@ -119,9 +134,9 @@ button:hover {
   opacity: 0.9;
 }
 
-/* ============================
+/* ====================================================
    Links
-=============================== */
+==================================================== */
 a {
   color: var(--color-primary);
   text-decoration: none;
@@ -131,54 +146,61 @@ a:hover {
   text-decoration: underline;
 }
 
-/* =============================
-  Gemeinsame Basis-Styles für alle Eingabefelder 
-================================ */
+/* ====================================================
+   Eingabefelder & Texteingaben
+==================================================== */
 input[type="text"],
-input[type="password"]
+input[type="password"],
 input[type="number"],
 textarea {
   padding: 0.75rem;
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: var(--border-radius);
-  box-sizing: border-box;
   background-color: var(--color-background);
   color: var(--color-text);
+  box-sizing: border-box;
 }
 
-/* Volle Breite nur bei Textfeldern */
+input[type="password"],
 input[type="text"],
 textarea {
   width: 100%;
   resize: vertical;
 }
 
-/* Größere Höhe bei Textbereichen */
 textarea {
   min-height: 120px;
 }
 
-/* Optionale kleine, feste Breite bei Zahlen */
 input[type="number"] {
   width: 6rem;
 }
 
-/* Eingabefelder im Readonly-Zustand */
 input[readonly] {
   background-color: var(--color-input-readonly-bg);
 }
 
-/* Kleiner Hinweistext */
 .info-text {
   color: var(--color-text);
   font-size: 0.875rem;
   margin-bottom: 1rem;
 }
 
-/* ================================
-   Einheitliche Tabellen-Label-Spalte
-=================================== */
+/* ====================================================
+   Tabellen
+==================================================== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 0.5rem;
+  border: 0px solid #ccc;
+  text-align: left;
+}
+
 td.label-cell {
   width: 14rem;
   white-space: nowrap;
@@ -186,41 +208,132 @@ td.label-cell {
   font-weight: 500;
 }
 
-table.table-auto.w-full {
-   width: 100%;
-   text-align: left;
-}
-/* ============================
-   Responsive Navigation (Header + Menü)
-=============================== */
-
-/* Hamburger-Schaltfläche */
-.menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-  font-size: 2rem;
-  color: var(--color-button-text);
-  cursor: pointer;
+.table-wrapper {
+  overflow-x: auto;
+  width: 100%;
 }
 
-/* Mobile Menü (standardmäßig versteckt) */
-.nav {
+/* ====================================================
+   Grid-Listen (z. B. Schwingerliste)
+==================================================== */
+.grid-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.grid-list-item {
+  background-color: var(--color-background);
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  padding: 1rem;
   display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
+.item-link {
+  display: flex;
+  gap: 1rem;
+  color: inherit;
+  text-decoration: none;
+  width: 100%;
+}
+
+.item-image {
+  flex-shrink: 0;
+  width: 100px;
+  height: 100px;
+  border-radius: var(--border-radius);
+  object-fit: cover;
+  background-color: #eee;
+}
+
+.item-text {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+/* ====================================================
+   Slider-Styling
+==================================================== */
+.slider-container {
+  max-width: 180px;
+  margin: 0 auto;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  background: #ddd;
+  border-radius: 4px;
+  margin: 0.5rem 0;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb,
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+.slider-label-track {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+  padding: 0 2px;
+  color: var(--color-text);
+}
+
+/* ====================================================
+   Sterne-Anzeige
+==================================================== */
+.sterne-anzeige {
+  color: #FFD700;
+  font-size: 20px;
+}
+
+.sterne-leer {
+  color: #ccc;
+}
+
+/* ====================================================
+   Mobile Optimierung
+==================================================== */
 @media (max-width: 768px) {
-  .menu-toggle {
-    display: block;
+  .main-content {
+    padding-left: 0.1rem !important;
+    padding-right: 0.1rem !important;
+    max-width: 100%;
+  }
+  
+  html {
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+  }
+
+  body {
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+  }
+
+  .responsive-padding {
+    padding: 0.5rem;
   }
 
   .nav {
-    display: none;
     flex-direction: column;
     width: 100%;
-    margin-top: 1rem;
+    display: none;
   }
 
   .nav.open {
@@ -235,171 +348,42 @@ table.table-auto.w-full {
     padding: 0.5rem 0;
   }
 
+  .menu-toggle {
+    display: block;
+    margin-right: auto;
+  }
+
   .header {
     flex-direction: column;
     align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  th, td {
+    font-size: 0.8rem;
+    padding: 0.3rem;
+    max-width: 100%;
+  }
+
+  .sterne-anzeige {
+  font-size: 12px;
+  }
+
+  .seite-bewerten .label-cell {
+    font-size: 0.7rem;
+    white-space: nowrap;
+    max-width:fit-content;
+  }
+
+  button {
+    width: 100%;
   }
 }
 
-/* =============================
-   Schwingerliste Grid Styling
-=============================== */
-.grid-list {
+/* ====================================================
+   Weitere Hilfsklassen
+==================================================== */
+.noPoints {
   list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-}
-
-.grid-list-item {
-  background-color: var(--color-background);
-  border: 1px solid #ddd;
-  border-radius: var(--border-radius);
-  padding: 1rem;
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  overflow: hidden; /* Verhindert Überlappen */
-}
-
-.item-link {
-  display: flex;
-  gap: 1rem;
-  align-items: flex-start;
-  color: inherit;
-  text-decoration: none;
-  width: 100%;
-}
-
-.item-image {
-  flex-shrink: 0; /* Bild nicht schrumpfen lassen */
-  width: 100px;
-  height: 100px;
-  border-radius: var(--border-radius);
-  object-fit: cover;
-  background-color: #eee;
-}
-
-.item-image.placeholder {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #666;
-  font-size: 0.85rem;
-}
-
-.item-text {
-  flex: 1; /* Text nimmt verbleibenden Platz ein */
-  min-width: 0; /* Wichtig für Text-Overflow in Flexbox */
-  overflow-wrap: break-word;
-}
-
-/*-------------------------
-Slider Styling
----------------------------*/
-
-.slider-container {
-  width: 100%;
-  max-width: 180px;
-  margin: 0 auto;
-}
-
-.bewertungs-slider {
-  width: 100%;
-  margin: 0;
-  -webkit-appearance: none;
-  height: 6px;
-  background: #ddd;
-  border-radius: 4px;
-  outline: none;
-}
-
-.bewertungs-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--color-primary);
-  cursor: pointer;
-}
-
-.bewertungs-slider::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--color-primary);
-  cursor: pointer;
-}
-
-.slider-label-track {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 0.3rem;
-  padding: 0 2px;
-  font-size: 0.8rem;
-  color: var(--color-text);
-}
-
-.slider-label-track span {
-  text-align: center;
-  width: 1rem; /* optional: gibt Gleichmäßigkeit */
-}
-
-
-/* === Bewertungs-Slider Styling === */
-input[type="range"] {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 6px;
-  background: #ddd;
-  border-radius: 3px;
-  outline: none;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-/* Linie in Dark Mode heller machen */
-@media (prefers-color-scheme: dark) {
-  input[type="range"] {
-    background: #444;
-  }
-}
-
-/* WebKit Thumb (Chrome, Safari, Edge) */
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--color-primary);
-  cursor: pointer;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-  transition: background 0.3s ease;
-}
-
-/* Firefox Thumb */
-input[type="range"]::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--color-primary);
-  cursor: pointer;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-}
-
-/* --------------------------------------------
-Sterne
------------------------------------------------*/
-
-.sterne-anzeige {
-  color: #FFD700; /* Goldgelb */
-  font-size: 20px;
-}
-
-.sterne-leer {
-  color: #ccc; /* Hellgrau */
+  padding-left: 0%;
 }

@@ -24,6 +24,7 @@ export default function BewertungsVorschau({ bewertung }) {
           <h3 className="text-xl font-semibold mb-2">{gruppe.gruppe}</h3>
 
           {gruppe.matrix ? (
+            <div className="table-wrapper">
             <table className="table-auto w-full border">
               <thead>
                 <tr>
@@ -54,7 +55,9 @@ export default function BewertungsVorschau({ bewertung }) {
                 ))}
               </tbody>
             </table>
+            </div>
           ) : (
+            <div className="table-wrapper">
             <table className="table-auto w-full">
               <tbody>
                 {gruppe.felder.map((feld, fi) => (
@@ -74,6 +77,7 @@ export default function BewertungsVorschau({ bewertung }) {
                 ))}
               </tbody>
             </table>
+            </div>
           )}
         </div>
       ))}
