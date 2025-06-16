@@ -1,13 +1,13 @@
 [
   {
-    "gruppe": "Allgemein",
+    "gruppe": "",
     "felder": [
-      { "name": "bewerter_name", "label": "Dein Name", "type": "text" },
+      { "name": "bewerter_name", "label": "Zuletst bearbeitet von", "type": "text" },
       { "name": "kommentar", "label": "Kommentar \n (sichtbar für alle)", "type": "text" }
     ]
   },
   {
-    "gruppe": "Physische Eigenschaften",
+    "gruppe": "",
     "felder": [
       { "name": "Statur", "label": "Statur", "type": "number" },
       { "name": "Kraft", "label": "Kraft", "type": "number" },
@@ -21,13 +21,13 @@
     ]
   },
   {
-    "gruppe": "Verhalten",
+    "gruppe": "",
     "felder": [
       { "name": "Verhalten_vor_Kampfantritt", "label": "Verhalten vor Kampfantritt", "type": "text" }
     ]
   },
   {
-    "gruppe": "Stärkenklassen",
+    "gruppe": "",
     "matrix": true,
     "kategorien": ["gegen schwächere", "gegen gleich starke", "gegen stärkere"],
     "felder": [
@@ -54,7 +54,7 @@
     ]
   },
   {
-    "gruppe": "Fähigkeiten",
+    "gruppe": "",
     "felder": [
       { "name": "Staerke_innerhalb_Griffen", "label": "Stärke innerhalb Griffen", "type": "number" },
       { "name": "Staerke_ausserhalb_Griffen", "label": "Stärke ausserhalb Griffen", "type": "number" },
@@ -64,7 +64,7 @@
     ]
   },
   {
-    "gruppe": "Allgemeine Eigenschaften",
+    "gruppe": "",
     "felder": [
       { "name": "Allgemeiner_Geschwuerfaktor", "label": "Allgemeiner Geschwürfaktor", "type": "number" },
       { "name": "Allgemeiner_Nachschlungfaktor", "label": "Allgemeiner Nachschlungfaktor", "type": "number" },
@@ -73,7 +73,7 @@
     ]
   },
   {
-    "gruppe": "Stil",
+    "gruppe": "",
     "felder": [
       { "name": "Bemerkungen", "label": "Bemerkungen", "type": "text" },
       { "name": "Angriffsschwuenge", "label": "Angriffsschwünge", "type": "text" },

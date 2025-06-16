@@ -175,15 +175,23 @@ export default function Bewerten() {
                       <tr key={index}>
                         <td className="label-cell px-2 py-2">{feld.label}</td>
                         {feld.names.map((name, idx) => (
-                          <td key={idx} className="border px-2 py-1">
-                            <input
-                              type="number"
-                              min="1"
-                              max="5"
-                              value={formData[name] || ''}
-                              onChange={(e) => handleChange(name, e.target.value)}
-                              className="border rounded px-2 py-1 w-full"
-                            />
+                          <td key={idx} className="border px-2 py-1 w-[200px]">
+                          <div className="slider-container">
+                          <input
+                            type="range"
+                            min="1"
+                            max="5"
+                            step="1"
+                            value={formData[name] || 3}
+                            onChange={(e) => handleChange(name, e.target.value)}
+                            className="bewertungs-slider"
+                          />
+                          <div className="slider-label-track">
+                            {[1, 2, 3, 4, 5].map((zahl) => (
+                              <span key={zahl}>{zahl}</span>
+                            ))}
+                          </div>
+                          </div>
                           </td>
                         ))}
                       </tr>
@@ -211,14 +219,19 @@ export default function Bewerten() {
                               className="border rounded px-2 py-1 w-full"
                             />
                           ) : (
-                            <input
-                              type="number"
-                              min="1"
-                              max="5"
-                              value={formData[feld.name] || ''}
-                              onChange={(e) => handleChange(feld.name, e.target.value)}
-                              className="border rounded px-2 py-1 w-32"
-                            />
+                            <><input
+                                  type="range"
+                                  min="1"
+                                  max="5"
+                                  step="1"
+                                  value={formData[feld.name] || 3}
+                                  onChange={(e) => handleChange(feld.name, e.target.value)}
+                                  className="bewertungs-slider" />
+                                  <div className="slider-label-track">
+                                    {[1, 2, 3, 4, 5].map((num) => (
+                                      <span key={num}>{num}</span>
+                                    ))}
+                            </div></>
                           )}
                         </td>
                       </tr>

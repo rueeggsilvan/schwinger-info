@@ -67,6 +67,10 @@ body {
   display: block;
 }
 
+.noPoints {
+  list-style:none;
+}
+
 .nav {
   display: flex;
   gap: 1.5rem;
@@ -290,4 +294,112 @@ table.table-auto.w-full {
   flex: 1; /* Text nimmt verbleibenden Platz ein */
   min-width: 0; /* Wichtig für Text-Overflow in Flexbox */
   overflow-wrap: break-word;
+}
+
+/*-------------------------
+Slider Styling
+---------------------------*/
+
+.slider-container {
+  width: 100%;
+  max-width: 180px;
+  margin: 0 auto;
+}
+
+.bewertungs-slider {
+  width: 100%;
+  margin: 0;
+  -webkit-appearance: none;
+  height: 6px;
+  background: #ddd;
+  border-radius: 4px;
+  outline: none;
+}
+
+.bewertungs-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+}
+
+.bewertungs-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+}
+
+.slider-label-track {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.3rem;
+  padding: 0 2px;
+  font-size: 0.8rem;
+  color: var(--color-text);
+}
+
+.slider-label-track span {
+  text-align: center;
+  width: 1rem; /* optional: gibt Gleichmäßigkeit */
+}
+
+
+/* === Bewertungs-Slider Styling === */
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  background: #ddd;
+  border-radius: 3px;
+  outline: none;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Linie in Dark Mode heller machen */
+@media (prefers-color-scheme: dark) {
+  input[type="range"] {
+    background: #444;
+  }
+}
+
+/* WebKit Thumb (Chrome, Safari, Edge) */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease;
+}
+
+/* Firefox Thumb */
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+/* --------------------------------------------
+Sterne
+-----------------------------------------------*/
+
+.sterne-anzeige {
+  color: #FFD700; /* Goldgelb */
+  font-size: 20px;
+}
+
+.sterne-leer {
+  color: #ccc; /* Hellgrau */
 }

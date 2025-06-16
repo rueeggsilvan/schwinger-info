@@ -4,8 +4,11 @@ import Link from 'next/link'
 import { supabase } from '../../lib/supabaseClient'
 import Layout from '../../components/layout'
 import Image from 'next/image'
+import BewertungsVorschau from '../../components/BewertungsVorschau'
+
 
 export default function SchwingerDetail() {
+  const [user, setUser] = useState(null)
   const router = useRouter()
   const { id } = router.query
 
@@ -13,6 +16,13 @@ export default function SchwingerDetail() {
   const [bewertungen, setBewertungen] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) setUser(user)
+    })
+  }, [])
 
   useEffect(() => {
     if (!id) return
@@ -26,12 +36,7 @@ export default function SchwingerDetail() {
         .select(`
           *,
           bewertungen (
-            id,
-            kommentar,
-            created_by,
-            updated_by,
-            created_at,
-            updated_at
+            *
           )
         `)
         .eq('id', id)
@@ -113,13 +118,12 @@ export default function SchwingerDetail() {
           {bewertungen.length === 0 ? (
             <p>Dieser Schwinger wurde noch nicht bewertet.</p>
           ) : (
-            <ul>
+            <ul className='noPoints'>
               {bewertungen.map(b => (
                 <li key={b.id}>
-                  <div>
-                    Bewertung von {b.created_username || 'Unbekannt'} /n zuletzt geändert von {b.updated_username || 'Unbekannt'}
-                  </div>
-                  <div>{b.kommentar || 'Keine Bewertungstexte'}</div>
+                  <div>Bewertung erstellt von {b.created_username || 'Unbekannt'}.</div>
+                  <div>Zuletzt geändert von {b.updated_username || 'Unbekannt'}.</div>
+                  <div>Kommentar: {b.kommentar || 'Keine Bewertungstexte'}</div>
                 </li>
               ))}
             </ul>
@@ -128,7 +132,13 @@ export default function SchwingerDetail() {
 
         <div style={{ marginTop: '1rem' }}>
           <Link href={`/schwinger/${id}/bewerten`}>
-            <button>Bewerten</button>
+            <button>Bewertung bearbeiten / erstellen</button>
+          </Link>
+        </div>
+
+        <div style={{marginTop: '1rem'}}>
+          <Link href="https://esv.ch/ranglisten/statistiken/">
+            <button>Paarungen</button>
           </Link>
         </div>
         
@@ -152,6 +162,10 @@ export default function SchwingerDetail() {
         <p style={{ fontSize: '0.9rem', color: 'var(--color-text)' }}>
           Kein PDF verfügbar.
         </p>
+      )}
+
+      {user && bewertungen.length > 0 && (
+      <BewertungsVorschau bewertung={bewertungen[0]} />
       )}
 
       </div>
