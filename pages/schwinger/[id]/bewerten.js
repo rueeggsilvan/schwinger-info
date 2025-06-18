@@ -8,6 +8,7 @@ import Link from 'next/link'
 export default function Bewerten() {
   const [user, setUser] = useState(null)
   const [formData, setFormData] = useState({})
+  const [savedData, setSavedData] = useState({})
   const [schwinger, setSchwinger] = useState(null)
   const [loading, setLoading] = useState(true)
   const [bewertungExists, setBewertungExists] = useState(false)
@@ -77,7 +78,9 @@ export default function Bewerten() {
           ...prev,
           ...existingBewertung,
           bewerter_name: profile.username,
+          
         }))
+        setSavedData(existingBewertung)
         setBewertungExists(true)
       }
 
@@ -91,6 +94,17 @@ export default function Bewerten() {
 
   const handleChange = (name, value) => {
     setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  // Funktion für Slider-Styles
+  const getSliderClass = (name) => {
+    const value = formData[name]
+    const saved = savedData[name]
+
+    if (value == null || value === '') return 'bewertungs-slider unset'
+    if (saved != null && value !== saved) return 'bewertungs-slider changed'
+    if (value == saved) return 'bewertungs-slider'
+    return 'bewertungs-slider'
   }
 
   const handleSubmit = async (e) => {
@@ -185,7 +199,7 @@ export default function Bewerten() {
                             step="1"
                             value={formData[name] || 3}
                             onChange={(e) => handleChange(name, e.target.value)}
-                            className="bewertungs-slider"
+                            className={getSliderClass(name)}
                           />
                           <div className="slider-label-track">
                             {[1, 2, 3, 4, 5].map((zahl) => (
@@ -229,8 +243,8 @@ export default function Bewerten() {
                                   max="5"
                                   step="1"
                                   value={formData[feld.name] || 3}
-                                  onChange={(e) => handleChange(feld.name, e.target.value)}
-                                  className="bewertungs-slider" />
+                                  onChange={(e) => handleChange(feld.name, parseInt(e.target.value))}
+                                  className={getSliderClass(feld.name)} />
                                   <div className="slider-label-track">
                                     {[1, 2, 3, 4, 5].map((num) => (
                                       <span key={num}>{num}</span>
