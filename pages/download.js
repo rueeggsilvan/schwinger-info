@@ -108,7 +108,7 @@ export default function SchwingerListe() {
     pdf.setFont('DejaVu', 'bold')
     pdf.setTextColor(...COLORS.primary)
     pdf.setFontSize(17)
-    pdf.text(`${s.vorname} ${s.name}`, 40, 50)
+    pdf.text(`${s.name} ${s.vorname}`, 40, 50)
 
     pdf.setFont('DejaVu', 'normal')
     pdf.setTextColor(...COLORS.text)
@@ -283,7 +283,7 @@ export default function SchwingerListe() {
       })
 
       // 2) Falls link_pdf da ist: externes PDF hinten anhängen
-      const filename = `${schwingerData.vorname}_${schwingerData.name}_${schwingerData.wohnort}`
+      const filename = `${schwingerData.name}_${schwingerData.vorname}_${schwingerData.wohnort}`
         .replace(/\s+/g, '_') + '.pdf'
 
       try {
