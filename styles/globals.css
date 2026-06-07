@@ -120,7 +120,7 @@ body {
 /* ====================================================
    Buttons
 ==================================================== */
-button {
+button, .button {
   background-color: var(--color-button-bg);
   color: var(--color-button-text);
   border: none;
@@ -128,10 +128,12 @@ button {
   border-radius: var(--border-radius);
   cursor: pointer;
   font-size: 1rem;
+  display: inline-block;
 }
 
-button:hover {
+button:hover, .button:hover {
   opacity: 0.9;
+  text-decoration: none;
 }
 
 /* ====================================================

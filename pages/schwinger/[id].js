@@ -131,20 +131,20 @@ export default function SchwingerDetail() {
         </div>
 
         <div style={{ marginTop: '1rem' }}>
-          <Link href={`/schwinger/${id}/bewerten`}>
-            <button>Bewertung bearbeiten / erstellen</button>
+          <Link href={`/schwinger/${id}/bewerten`} className="button">
+            Bewertung bearbeiten / erstellen
           </Link>
         </div>
 
         <div style={{marginTop: '1rem'}}>
-          <Link href="https://esv.ch/ranglisten/statistiken/">
-            <button>Paarungen</button>
-          </Link>
+          <a href="https://esv.ch/ranglisten/statistiken/" target="_blank" rel="noopener noreferrer" className="button">
+            Paarungen
+          </a>
         </div>
         
         <div style={{ marginTop: '1rem' }}>
-          <Link href="/schwinger">
-            <button>Zurück zur Liste</button>
+          <Link href="/schwinger" className="button">
+            Zurück zur Liste
           </Link>
         </div>
 

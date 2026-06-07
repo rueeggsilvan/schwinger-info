@@ -2,7 +2,20 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['esv.ch'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'esv.ch',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'esv.ch',
+        port: '',
+        pathname: '/**',
+      },
+    ],
   },
 };
 

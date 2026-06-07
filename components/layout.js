@@ -10,7 +10,6 @@ export default function Layout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
   const currentPath = router.asPath;
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
 
   useEffect(() => {
     const getSessionAndProfile = async () => {
@@ -58,9 +57,9 @@ export default function Layout({ children }) {
     <div className="layout">
       <header className="header">
         <div className="logo">
-          <Link href="https://nosv.esv.ch/home/">
+          <a href="https://nosv.esv.ch/home/" target="_blank" rel="noopener noreferrer">
             <Image src="/logo.png" alt="Zur Schwingerliste" width={150} height={50} />
-          </Link>
+          </a>
         </div>
 
         <button

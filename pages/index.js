@@ -6,8 +6,8 @@ export default function Home() {
     <Layout>
       <h1>Willkommen! 🎉</h1>
       <p>Nutze die Schwingerliste um einen Schwinger auszuwählen, sein Profil anzusehen und ihn zu bewerten.</p>
-      <Link href="/schwinger">
-        <button>Zur Schwingerliste</button>
+      <Link href="/schwinger" className="button">
+        Zur Schwingerliste
       </Link>
     </Layout>
   );
