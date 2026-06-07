@@ -69,6 +69,7 @@ export default function Bewerten() {
         .from('bewertungen')
         .select('*')
         .eq('schwinger_id', id)
+        .eq('user_id', user.id)
         .maybeSingle()
 
       if (bewertungError) {
@@ -115,23 +116,66 @@ export default function Bewerten() {
       return
     }
 
+    // 1. Hole aktuellen User sicherheitshalber nochmals
+    const { data: authData, error: authError } = await supabase.auth.getUser()
+    if (authError || !authData.user) {
+      alert('Du musst eingeloggt sein, um zu bewerten.')
+      return
+    }
+    const currentUser = authData.user
+
     const payload = {
       ...formData,
       schwinger_id: id,
-      user_id: user.id,
+      user_id: currentUser.id,
     }
 
-    if (bewertungExists) {
-      payload.updated_by = user.id
-    }
+    // Unnötige/gefährliche Felder aus dem Payload entfernen
+    delete payload.id;
+    delete payload.created_at;
+    delete payload.created_by; // Sicherstellen, dass wir es nicht versehentlich überschreiben
 
-    const { error } = await supabase
+    // 2. Prüfen, ob schon eine Bewertung von diesem User für diesen Schwinger existiert
+    const { data: existing, error: checkError } = await supabase
       .from('bewertungen')
-      .upsert(payload, { onConflict: 'schwinger_id' })
+      .select('id, created_by')
+      .eq('schwinger_id', id)
+      .eq('user_id', currentUser.id)
+      .maybeSingle()
 
-    if (error) {
-      console.error('Fehler beim Speichern der Bewertung:', error)
-      alert(`Fehler beim Speichern der Bewertung: ${error.message}`)
+    if (checkError) {
+      console.error('Fehler beim Prüfen:', checkError)
+      alert('Fehler beim Prüfen der bestehenden Bewertung.')
+      return
+    }
+
+    let saveError = null;
+
+    if (existing) {
+      // 3. UPDATE: Bewertung existiert bereits
+      payload.updated_by = currentUser.id
+      
+      const { error } = await supabase
+        .from('bewertungen')
+        .update(payload)
+        .eq('id', existing.id)
+        
+      saveError = error
+    } else {
+      // 4. INSERT: Neue Bewertung
+      payload.created_by = currentUser.id
+      payload.updated_by = currentUser.id
+
+      const { error } = await supabase
+        .from('bewertungen')
+        .insert(payload)
+
+      saveError = error
+    }
+
+    if (saveError) {
+      console.error('Fehler beim Speichern der Bewertung:', saveError)
+      alert(`Fehler beim Speichern der Bewertung: ${saveError.message}`)
     } else {
       alert('Bewertung gespeichert.')
       router.push(`/schwinger/${id}`)
