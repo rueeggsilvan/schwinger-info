@@ -261,6 +261,48 @@ td.label-cell {
 }
 
 /* ====================================================
+   Footer
+==================================================== */
+.footer {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  padding: 1.5rem var(--spacing);
+  text-align: center;
+  border-top: 1px solid #eee;
+  margin-top: auto; /* Pushes footer to the bottom */
+}
+
+@media (prefers-color-scheme: dark) {
+  .footer {
+    border-top: 1px solid #333;
+  }
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+}
+
+.footer-link {
+  color: var(--color-text);
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.footer-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.footer-separator {
+  opacity: 0.5;
+}
+
+/* ====================================================
    Slider-Styling
 ==================================================== */
 
