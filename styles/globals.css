@@ -154,7 +154,8 @@ a:hover {
 input[type="text"],
 input[type="password"],
 input[type="number"],
-textarea {
+textarea,
+select {
   padding: 0.75rem;
   font-size: 1rem;
   border: 1px solid #ccc;
@@ -166,7 +167,8 @@ textarea {
 
 input[type="password"],
 input[type="text"],
-textarea {
+textarea,
+select {
   width: 100%;
   resize: vertical;
 }
